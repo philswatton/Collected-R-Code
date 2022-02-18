@@ -1,53 +1,50 @@
-# R function to give an element of Pascal's triangle
+#' R function to return a single entry from Pascal's triangle
+#'
+#' The idea for this function is lifted from one of the 'Structure
+#' and Interpretation of Computer Programs' exercises. It uses
+#' recursion to return one of the entries of Pascal's triangle.
+#'
+#' To stay in line with conventions for the triangle, unlike most of R
+#' the function uses 0-based indexing for the triangle.
+#' This means the first row of the triangle is 0, and the first entry
+#' of a row is 0.
+#'
+#' Rows are indexed by n, while entries are indexed by k.
 
-# The idea for this function is directly lifted from one of the 'Structure
-# and Interpretation of Computer Programs' exercises. The book works with
-# a dialect of LISP which was one of the influences on the R language.
-
-# The function uses recursion to return one of the elements of Pascal's
-# triangle. In the spirit of R I've used 1-based indexing instead of
-# 0-based indexing. So the first row of the triangle for this function is
-# '1' instead of the traditional '0', and the first element in a row is '1'
-# instead of '0'.
-
-# Inputs:
-# - rownum: the row of the triangle
-# - element: the element within the row to be returned
-
-pascal <- function(rownum, element=NULL) {
+pascal <- function(n, k=NULL) {
 
   # Input Validation
-  if (!is.numeric(rownum)) {
-    stop("Error: rownum must be numeric")
-  } else if (rownum %% 1 != 0) {
-    stop("Error: value of rownum must be integer")
-  } else if (length(rownum) > 1) {
-    stop("Error: rownum should be a single number")
+  if (!is.numeric(n)) {
+    stop("Error: n must be numeric")
+  } else if (n %% 1 != 0 | n < 0) {
+    stop("Error: value of n must be a natural number")
+  } else if (length(n) > 1) {
+    stop("Error: n should be a single number")
   }
 
-  if (!is.null(element)) {
-    if (!is.numeric(element)) {
-      stop("Error: element must be NULL or numeric")
-    } else if (element %% 1 != 0) {
-      stop("Error: value of element must be integer")
-    } else if (length(element) > 1) {
-      stop("Error: element should be a single number")
-    } else if (element > rownum) {
-      stop("Error: element must be less than or equal to rownum")
+  if (!is.null(k)) {
+    if (!is.numeric(k)) {
+      stop("k must be NULL or numeric")
+    } else if (k %% 1 != 0 | k < 0) {
+      stop("value of k must be a natural number")
+    } else if (length(k) > 1) {
+      stop("k should be a single number")
+    } else if (k > n) {
+      stop("k must be less than or equal to n")
     }
   }
 
-  if (rownum > 1 & is.null(element)) {
-    stop("Error: For rownum greater than 1, element must be specified")
+  if (n > 0 & is.null(k)) {
+    stop("for n greater than 0, k must be specified")
   }
 
   # Code
-  if (rownum == 1) {
+  if (n == 0) {
     return(1)
-  } else if (element %in% c(1, rownum)) {
+  } else if (k %in% c(0, n)) {
     return(1)
   } else {
-    return(pascal(rownum - 1, element - 1) + pascal(rownum - 1, element))
+    return(pascal(n - 1, k - 1) + pascal(n - 1, k))
   }
 
 }
