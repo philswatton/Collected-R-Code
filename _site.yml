@@ -1,6 +1,8 @@
 name: "Collected R Code"
 navbar:
   title: "Collected R Code"
+  left:
+    - text: "Home"
+    - href: "https://philswatton.github.io/"
 output:
-  html_document:
-    theme: darkly
+  html_document

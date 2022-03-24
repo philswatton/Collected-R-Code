@@ -6,4 +6,4 @@ css: page.css
 
 Test
 
-[link](/001_OLS)
+- [Ordinary Least Squares](ols)
