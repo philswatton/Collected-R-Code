@@ -5,3 +5,5 @@ css: page.css
 ---
 
 Test
+
+[link](/001_OLS)
