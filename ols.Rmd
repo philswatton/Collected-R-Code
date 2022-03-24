@@ -1,11 +1,6 @@
 ---
-title: "Untitled"
-output: html_document
+title: "Ordinary Least Squares"
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 Test
 
