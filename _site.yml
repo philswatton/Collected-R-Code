@@ -1,0 +1,6 @@
+name: "Collected R Code"
+navbar:
+  title: "Collected R Code"
+output:
+  html_document:
+    theme: darkly
