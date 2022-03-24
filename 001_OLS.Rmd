@@ -8,3 +8,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Test
+
+```{r}
+
+ols <- function(data, formula) {
+  
+  mf <- model.frame(formula, data)
+  y <- model.response(mf)
+  X <- model.matrix(mf)
+  
+  K <- ncol(X)
+  
+  B <- solve(t(X)%*%X) %*% t(X) %*% y
+  
+  return(B)
+  
+}
+
+```
