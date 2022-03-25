@@ -1,0 +1,7 @@
+--- 
+title: "Logit"
+---
+
+# Logit
+
+Some example R code
