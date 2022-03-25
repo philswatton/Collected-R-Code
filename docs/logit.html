@@ -179,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-15"><a href="logit.html#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-16"><a href="logit.html#cb8-16" aria-hidden="true" tabindex="-1"></a>  logitll <span class="ot">&lt;-</span> <span class="cf">function</span>(B) {</span>
 <span id="cb8-17"><a href="logit.html#cb8-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-18"><a href="logit.html#cb8-18" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">plogis</span>((X <span class="sc">%*%</span> B))</span>
+<span id="cb8-18"><a href="logit.html#cb8-18" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">inv_logit</span>((X <span class="sc">%*%</span> B))</span>
 <span id="cb8-19"><a href="logit.html#cb8-19" aria-hidden="true" tabindex="-1"></a>    lli <span class="ot">&lt;-</span> Y<span class="sc">*</span><span class="fu">log</span>(p) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>Y)<span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p)</span>
 <span id="cb8-20"><a href="logit.html#cb8-20" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb8-21"><a href="logit.html#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(lli))</span>
@@ -198,7 +198,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-4"><a href="logit.html#cb9-4" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N)</span>
 <span id="cb9-5"><a href="logit.html#cb9-5" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N)</span>
 <span id="cb9-6"><a href="logit.html#cb9-6" aria-hidden="true" tabindex="-1"></a>ystar <span class="ot">&lt;-</span> <span class="fl">1.5</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>X1 <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>X2 <span class="sc">+</span> <span class="fu">rnorm</span>(N)</span>
-<span id="cb9-7"><a href="logit.html#cb9-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="fu">plogis</span>(ystar))</span>
+<span id="cb9-7"><a href="logit.html#cb9-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="fu">inv_logit</span>(ystar))</span>
 <span id="cb9-8"><a href="logit.html#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-9"><a href="logit.html#cb9-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb9-10"><a href="logit.html#cb9-10" aria-hidden="true" tabindex="-1"></a>  y, X1, X2</span>

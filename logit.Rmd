@@ -23,7 +23,7 @@ logit <- function(data, formula, na.action=na.exclude) {
   
   logitll <- function(B) {
     
-    p <- plogis((X %*% B))
+    p <- inv_logit((X %*% B))
     lli <- Y*log(p) + (1-Y)*log(1-p)
     
     return(-sum(lli))
@@ -50,7 +50,7 @@ N <- 1000
 X1 <- rnorm(N)
 X2 <- rnorm(N)
 ystar <- 1.5 + 2*X1 + 3*X2 + rnorm(N)
-y <- rbinom(N, 1, plogis(ystar))
+y <- rbinom(N, 1, inv_logit(ystar))
 
 df <- data.frame(
   y, X1, X2
