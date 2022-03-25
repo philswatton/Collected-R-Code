@@ -10,8 +10,12 @@ github-repo: philswatton/Collected-R-Code
 description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
 ---
 
+```{r eval=F, echo=F}
+
+bookdown::render_book("index.Rmd")
+
+```
+
 # Introduction
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
-
-The **bookdown** package can be installed from CRAN or Github:
+This is a collection of R code written for the purposes of practice and demonstration. At the moment this is all in a work in progress stage, with a rough sketch set out for what the eventual contents will vaguely look like.
