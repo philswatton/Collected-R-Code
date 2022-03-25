@@ -53,8 +53,8 @@ Putting the function in action:
 set.seed(42)
 
 N <- 1000
-X1 = rnorm(N)
-X2 = rnorm(N)
+X1 <- rnorm(N)
+X2 <- rnorm(N)
 y = 1.5 + 2*X1 + 3*X2 + rnorm(N)
 
 df <- data.frame(
