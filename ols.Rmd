@@ -1,7 +1,3 @@
---- 
-title: "Ordinary Least Squares"
----
-
 # Ordinary Least Squares
 
 Some example R code
