@@ -2,6 +2,7 @@ book_filename: "bookdown-demo"
 language:
   ui:
     chapter_name: "Chapter "
+output_dir: 'docs'
 delete_merged_file: true
 rmd_files: [
   index.Rmd,
