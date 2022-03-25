@@ -1,0 +1,26 @@
+# Template
+
+Discussion of the model goes here
+
+Follow up with R implementation
+
+```{r}
+
+algo <- function(data, formula, na.action=na.exclude) {
+  
+  mf <- model.frame(formula, data, na.action=na.action)
+  Y <- model.response(mf, type="double")
+  X <- model.matrix(mf)
+  
+}
+
+
+```
+
+
+Follow up with demonstration of the function in action
+
+```{r}
+
+
+```
