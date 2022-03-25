@@ -53,6 +53,70 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="assets/book.css" type="text/css" />
@@ -97,6 +161,84 @@
 <div id="ordinary-least-squares" class="section level1 hasAnchor">
 <h1>Ordinary Least Squares<a href="ordinary-least-squares.html#ordinary-least-squares" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Some example R code</p>
+<ul>
+<li><p>we want to solve something of the form
+<span class="math display">\[ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} \]</span></p></li>
+<li><p>OLS is typically learned as</p></li>
+</ul>
+<p><span class="math display">\[ (\boldsymbol{X}&#39;\boldsymbol{X})^{-1}\boldsymbol{X}&#39;\boldsymbol{Y} \]</span>
+- but in practice, this is computationally inefficient
+- floating point algebra, matrix inversion, etc etc
+- instead, we use QR decomposition</p>
+<p><span class="math display">\[ \boldsymbol{X} = \boldsymbol{QR} \]</span>
+- since R is an upper triangular matrix, we can set</p>
+<p><span class="math display">\[ \boldsymbol{Y} = \boldsymbol{QR}\boldsymbol{\beta} \]</span>
+- meaning that:</p>
+<p><span class="math display">\[ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} \]</span>
+- by definition of the QR decomposition:
+<span class="math display">\[ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}&#39;\boldsymbol{Y}\]</span>
+- we can therefore exploit the triangular structur of <span class="math inline">\(\boldsymbol{R}\)</span> to backsolve the equation:
+<span class="math display">\[ \boldsymbol{Q}&#39;\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} \]</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ordinary-least-squares.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="ordinary-least-squares.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="ordinary-least-squares.html#cb1-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb1-4"><a href="ordinary-least-squares.html#cb1-4" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb1-5"><a href="ordinary-least-squares.html#cb1-5" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb1-6"><a href="ordinary-least-squares.html#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fl">1.5</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>X1 <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>X2 <span class="sc">+</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb1-7"><a href="ordinary-least-squares.html#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="ordinary-least-squares.html#cb1-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-9"><a href="ordinary-least-squares.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  y, X1, X2</span>
+<span id="cb1-10"><a href="ordinary-least-squares.html#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="ordinary-least-squares.html#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="ordinary-least-squares.html#cb1-12" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> y <span class="sc">~</span> X1 <span class="sc">+</span> X2</span>
+<span id="cb1-13"><a href="ordinary-least-squares.html#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="ordinary-least-squares.html#cb1-14" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula, <span class="at">method=</span><span class="st">&quot;QR&quot;</span>, <span class="at">na.action=</span>na.exclude) {</span>
+<span id="cb1-15"><a href="ordinary-least-squares.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-16"><a href="ordinary-least-squares.html#cb1-16" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.action)</span>
+<span id="cb1-17"><a href="ordinary-least-squares.html#cb1-17" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">model.response</span>(mf, <span class="at">type=</span><span class="st">&quot;double&quot;</span>)</span>
+<span id="cb1-18"><a href="ordinary-least-squares.html#cb1-18" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(mf)</span>
+<span id="cb1-19"><a href="ordinary-least-squares.html#cb1-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-20"><a href="ordinary-least-squares.html#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;matrix&quot;</span>) B <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Y</span>
+<span id="cb1-21"><a href="ordinary-least-squares.html#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;QR&quot;</span>) {</span>
+<span id="cb1-22"><a href="ordinary-least-squares.html#cb1-22" aria-hidden="true" tabindex="-1"></a>    QR <span class="ot">&lt;-</span> <span class="fu">qr</span>(X)</span>
+<span id="cb1-23"><a href="ordinary-least-squares.html#cb1-23" aria-hidden="true" tabindex="-1"></a>    Q <span class="ot">&lt;-</span> <span class="fu">qr.Q</span>(QR)</span>
+<span id="cb1-24"><a href="ordinary-least-squares.html#cb1-24" aria-hidden="true" tabindex="-1"></a>    R <span class="ot">&lt;-</span> <span class="fu">qr.R</span>(QR)</span>
+<span id="cb1-25"><a href="ordinary-least-squares.html#cb1-25" aria-hidden="true" tabindex="-1"></a>    B <span class="ot">&lt;-</span> <span class="fu">backsolve</span>(R, <span class="fu">t</span>(Q)<span class="sc">%*%</span>Y)</span>
+<span id="cb1-26"><a href="ordinary-least-squares.html#cb1-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="ordinary-least-squares.html#cb1-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-28"><a href="ordinary-least-squares.html#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(B)</span>
+<span id="cb1-29"><a href="ordinary-least-squares.html#cb1-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-30"><a href="ordinary-least-squares.html#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="ordinary-least-squares.html#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">ols</span>(df, f)</span></code></pre></div>
+<pre><code>##          [,1]
+## [1,] 1.496133
+## [2,] 1.978201
+## [3,] 2.981712</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="ordinary-least-squares.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ols</span>(df, f, <span class="st">&quot;matrix&quot;</span>)</span></code></pre></div>
+<pre><code>##                 [,1]
+## (Intercept) 1.496133
+## X1          1.978201
+## X2          2.981712</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="ordinary-least-squares.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(f, df))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = f, data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.1968 -0.6336  0.0163  0.6654  3.4847 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.49613    0.03259   45.91   &lt;2e-16 ***
+## X1           1.97820    0.03251   60.84   &lt;2e-16 ***
+## X2           2.98171    0.03306   90.20   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.03 on 997 degrees of freedom
+## Multiple R-squared:  0.923,  Adjusted R-squared:  0.9228 
+## F-statistic:  5974 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 
 </div>
             </section>
