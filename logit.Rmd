@@ -1,8 +1,8 @@
 # Logit
 
-Discussion of the model goes here
+<!-- Discussion of the model goes here
 
-Follow up with R implementation
+Follow up with R implementation -->
 
 ```{r}
 
@@ -39,8 +39,7 @@ logit <- function(data, formula, na.action=na.exclude) {
 
 ```
 
-
-Follow up with demonstration of the function in action
+Testing the function:
 
 ```{r}
 
@@ -59,6 +58,6 @@ df <- data.frame(
 f <- y ~ X1 + X2
 
 summary(glm(f,binomial,df))$coef
-logit(data, f)
+logit(df, f)
 
 ```

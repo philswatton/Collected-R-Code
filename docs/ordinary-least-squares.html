@@ -160,25 +160,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ordinary-least-squares" class="section level1 hasAnchor">
 <h1>Ordinary Least Squares<a href="ordinary-least-squares.html#ordinary-least-squares" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Some example R code</p>
-<ul>
-<li><p>we want to solve something of the form
-<span class="math display">\[ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} \]</span></p></li>
-<li><p>OLS is typically learned as</p></li>
-</ul>
-<p><span class="math display">\[ (\boldsymbol{X}&#39;\boldsymbol{X})^{-1}\boldsymbol{X}&#39;\boldsymbol{Y} \]</span>
+<!--Some example R code
+
+- we want to solve something of the form
+$$ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} $$
+
+- OLS is typically learned as
+
+$$ (\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\boldsymbol{Y} $$
 - but in practice, this is computationally inefficient
 - floating point algebra, matrix inversion, etc etc
-- instead, we use QR decomposition</p>
-<p><span class="math display">\[ \boldsymbol{X} = \boldsymbol{QR} \]</span>
-- since R is an upper triangular matrix, we can set</p>
-<p><span class="math display">\[ \boldsymbol{Y} = \boldsymbol{QR}\boldsymbol{\beta} \]</span>
-- meaning that:</p>
-<p><span class="math display">\[ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} \]</span>
+- instead, we use QR decomposition
+
+$$ \boldsymbol{X} = \boldsymbol{QR} $$
+- since R is an upper triangular matrix, we can set
+
+$$ \boldsymbol{Y} = \boldsymbol{QR}\boldsymbol{\beta} $$
+- meaning that:
+
+$$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$
 - by definition of the QR decomposition:
-<span class="math display">\[ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}&#39;\boldsymbol{Y}\]</span>
-- we can therefore exploit the triangular structur of <span class="math inline">\(\boldsymbol{R}\)</span> to backsolve the equation:
-<span class="math display">\[ \boldsymbol{Q}&#39;\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} \]</span></p>
+$$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}'\boldsymbol{Y}$$
+- we can therefore exploit the triangular structur of $\boldsymbol{R}$ to backsolve the equation:
+$$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ordinary-least-squares.html#cb1-1" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula, <span class="at">method=</span><span class="st">&quot;QR&quot;</span>, <span class="at">na.action=</span>na.exclude) {</span>
 <span id="cb1-2"><a href="ordinary-least-squares.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-3"><a href="ordinary-least-squares.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.action)</span>
@@ -301,20 +305,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

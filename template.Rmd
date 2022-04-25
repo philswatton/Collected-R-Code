@@ -17,8 +17,7 @@ algo <- function(data, formula, na.action=na.exclude) {
 
 ```
 
-
-Follow up with demonstration of the function in action
+Testing the function:
 
 ```{r}
 

@@ -1,22 +1,23 @@
 /* Import */
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&family=PT+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
 
 
 /* Text */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'Karla', sans-serif;
   color: rgba(52, 61, 70, 1);
 }
 
 p {
-    font-family: 'PT Serif', serif;
+    font-family: 'Karla', serif;
     color: rgb(0, 0, 0);
 }
 
 
 /* ToC Links */
 .book .book-summary ul.summary li a {
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'Karla', sans-serif;
   font-weight: bold;
   color: rgba(52, 61, 70, 1);
   text-decoration: none;

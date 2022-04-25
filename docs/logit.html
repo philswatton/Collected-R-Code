@@ -160,8 +160,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="logit" class="section level1 hasAnchor">
 <h1>Logit<a href="logit.html#logit" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Discussion of the model goes here</p>
-<p>Follow up with R implementation</p>
+<!-- Discussion of the model goes here
+
+Follow up with R implementation -->
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="logit.html#cb8-1" aria-hidden="true" tabindex="-1"></a>inv_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb8-2"><a href="logit.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-3"><a href="logit.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))</span>
@@ -191,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-27"><a href="logit.html#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(est<span class="sc">$</span>par)</span>
 <span id="cb8-28"><a href="logit.html#cb8-28" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-29"><a href="logit.html#cb8-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Follow up with demonstration of the function in action</p>
+<!-- Follow up with demonstration of the function in action -->
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="logit.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb9-2"><a href="logit.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="logit.html#cb9-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
@@ -211,7 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## (Intercept) 1.413335  0.1203875 11.73988 7.960399e-32
 ## X1          1.839204  0.1439189 12.77945 2.135770e-37
 ## X2          2.472301  0.1728920 14.29968 2.198073e-46</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="logit.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logit</span>(data, f)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="logit.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logit</span>(df, f)</span></code></pre></div>
 <pre><code>## [1] 1.413368 1.839245 2.472373</code></pre>
 
 </div>
@@ -275,20 +276,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

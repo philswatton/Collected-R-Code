@@ -1,6 +1,6 @@
 # Ordinary Least Squares
 
-Some example R code
+<!--Some example R code
 
 - we want to solve something of the form
 $$ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} $$
@@ -22,7 +22,7 @@ $$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$
 - by definition of the QR decomposition:
 $$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}'\boldsymbol{Y}$$
 - we can therefore exploit the triangular structur of $\boldsymbol{R}$ to backsolve the equation:
-$$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$
+$$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 
 
 ```{r}
@@ -46,7 +46,7 @@ ols <- function(data, formula, method="QR", na.action=na.exclude) {
 
 ```
 
-Putting the function in action:
+Testing the function:
 
 ```{r}
 
