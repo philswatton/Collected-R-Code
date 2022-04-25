@@ -40,7 +40,7 @@ mnlogit <- function(data, formula, na.action=na.exclude) {
   rownames(est) <- colnames(X)
   colnames(est) <- paste0(levels[1], "/", levels[2:M])
   
-  return(t(est))
+  return(est)
   
 }
 
@@ -55,7 +55,7 @@ library(mclogit)
 housing <- MASS::housing #has an ordinal outcome but we'll ignore that for our purposes
 f <- Sat ~ Infl + Freq + Type
 
-mblogit(f, data = housing)
+t(mblogit(f, data = housing)$coefmat)
 mnlogit(housing, f)
 
 
