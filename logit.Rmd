@@ -17,7 +17,7 @@ logit <- function(data, formula, na.action=na.exclude) {
   
   mf <- model.frame(formula, data, na.action=na.action)
   Y <- model.response(mf, type="double")
-  X <- model.matrix(mf)
+  X <- model.matrix(formula, mf)
   
   B <- numeric(ncol(X))
   

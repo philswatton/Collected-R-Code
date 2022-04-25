@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="ordinary-least-squares.html"/>
-
+<link rel="next" href="ordered-logit.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -138,6 +138,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="index.html#introduction">Introduction<span></span></a></li>
 <li><a href="ordinary-least-squares.html#ordinary-least-squares">Ordinary Least Squares<span></span></a></li>
 <li><a href="logit.html#logit">Logit<span></span></a></li>
+<li><a href="ordered-logit.html#ordered-logit">Ordered Logit<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -174,7 +175,7 @@ Follow up with R implementation -->
 <span id="cb8-9"><a href="logit.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-10"><a href="logit.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.action)</span>
 <span id="cb8-11"><a href="logit.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">model.response</span>(mf, <span class="at">type=</span><span class="st">&quot;double&quot;</span>)</span>
-<span id="cb8-12"><a href="logit.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(mf)</span>
+<span id="cb8-12"><a href="logit.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, mf)</span>
 <span id="cb8-13"><a href="logit.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-14"><a href="logit.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(X))</span>
 <span id="cb8-15"><a href="logit.html#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -192,7 +193,7 @@ Follow up with R implementation -->
 <span id="cb8-27"><a href="logit.html#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(est<span class="sc">$</span>par)</span>
 <span id="cb8-28"><a href="logit.html#cb8-28" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-29"><a href="logit.html#cb8-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<!-- Follow up with demonstration of the function in action -->
+<p>Testing the function:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="logit.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb9-2"><a href="logit.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="logit.html#cb9-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
@@ -221,8 +222,8 @@ Follow up with R implementation -->
           </div>
         </div>
       </div>
-<a href="ordinary-least-squares.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="ordinary-least-squares.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ordered-logit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -138,6 +138,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="index.html#introduction">Introduction<span></span></a></li>
 <li><a href="ordinary-least-squares.html#ordinary-least-squares">Ordinary Least Squares<span></span></a></li>
 <li><a href="logit.html#logit">Logit<span></span></a></li>
+<li><a href="ordered-logit.html#ordered-logit">Ordered Logit<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -187,7 +188,7 @@ $$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 <span id="cb1-2"><a href="ordinary-least-squares.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-3"><a href="ordinary-least-squares.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.action)</span>
 <span id="cb1-4"><a href="ordinary-least-squares.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">model.response</span>(mf, <span class="at">type=</span><span class="st">&quot;double&quot;</span>)</span>
-<span id="cb1-5"><a href="ordinary-least-squares.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(mf)</span>
+<span id="cb1-5"><a href="ordinary-least-squares.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, mf)</span>
 <span id="cb1-6"><a href="ordinary-least-squares.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-7"><a href="ordinary-least-squares.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;matrix&quot;</span>) B <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Y</span>
 <span id="cb1-8"><a href="ordinary-least-squares.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;QR&quot;</span>) {</span>
@@ -199,7 +200,7 @@ $$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 <span id="cb1-14"><a href="ordinary-least-squares.html#cb1-14" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-15"><a href="ordinary-least-squares.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(B)</span>
 <span id="cb1-16"><a href="ordinary-least-squares.html#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Putting the function in action:</p>
+<p>Testing the function:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="ordinary-least-squares.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb2-2"><a href="ordinary-least-squares.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="ordinary-least-squares.html#cb2-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
