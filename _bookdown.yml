@@ -9,5 +9,6 @@ rmd_files: [
 
   # Model Estimation
   ols.Rmd,
-  logit.Rmd
+  logit.Rmd,
+  ologit.Rmd
 ]
