@@ -1,8 +1,6 @@
 # Template
 
-Discussion of the model goes here
-
-Follow up with R implementation
+<!-- Discussion of the model goes here -->
 
 ```{r}
 
