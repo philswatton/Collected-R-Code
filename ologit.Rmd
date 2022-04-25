@@ -1,0 +1,80 @@
+# Ordered Logit
+
+<!-- Discussion of the model goes here -->
+
+```{r}
+
+inv_logit <- function(x) {
+  
+  p <- 1 / (1 + exp(-x))
+  return(p)
+  
+}
+
+ologit <- function(data, formula, na.action=na.exclude) {
+  
+  mf <- model.frame(formula, data, na.action=na.action)
+  Y <- model.response(mf)
+  X <- model.matrix(formula, mf)[,-1]
+  N <- nrow(X)
+  
+  levels <- unique(Y)
+  M <- length(levels)
+  ncut <- M-1
+  
+  c <- 1:ncut/M
+  b <- numeric(ncol(X))
+  par <- c(c,b)
+  
+  ologitLL <- function(param) {
+    
+    c <- param[1:ncut]
+    b <- param[(ncut+1):length(param)]
+    
+    Xb <-  X %*% b
+    lli <- numeric(N)
+    
+    for (m in 1:M) {
+      if (m == 1) {
+        lli[Y==levels[m]] <- log(inv_logit(c[m]-Xb[Y==levels[m]]))
+      } else if (m < M) {
+        lli[Y==levels[m]] <- log(inv_logit(c[m]-Xb[Y==levels[m]]) - inv_logit(c[m-1]-Xb[Y==levels[m]]))
+      } else {
+        lli[Y==levels[m]] <- log(1 - inv_logit(c[m-1]-Xb[Y==levels[m]]))
+      }
+    }
+    
+    return(-sum(lli))
+    
+  }
+  
+  out <- optim(par, ologitLL, method="BFGS")
+  est <- out$par
+  
+  names(est)[1:ncut] <- paste0("t", 1:ncut)
+  names(est)[(ncut+1):length(est)] <- colnames(X)
+  
+  return(est)
+  
+}
+
+
+
+```
+
+Testing the function:
+
+```{r}
+
+# Example from https://towardsdatascience.com/implementing-and-interpreting-ordinal-logistic-regression-1ee699274cf5
+
+library(carData)
+library(MASS)
+
+data(WVS)
+f <- poverty~religion+degree+country+age+gender
+
+summary(polr(f, WVS))
+ologit(WVS, f)
+
+```
