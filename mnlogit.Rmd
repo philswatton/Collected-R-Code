@@ -1,0 +1,62 @@
+# Multinomial Logit
+
+<!-- Discussion of the model goes here -->
+
+```{r}
+
+mnlogit <- function(data, formula, na.action=na.exclude) {
+  
+  mf <- model.frame(formula, data, na.action=na.action)
+  y <- model.response(mf)
+  X <- model.matrix(formula, mf)
+  
+  N <- nrow(X)
+  K <- ncol(X)
+  levels <- unique(y)
+  M <- length(levels)
+  
+  Y <- matrix(N*M, nrow=N, ncol=M)
+  for (m in 1:M) {
+    Y[,m] <- ifelse(y==levels[m], 1, 0)
+  }
+  b <- numeric(K*(M-1))
+  
+  mnlogitLL <- function(param) {
+    
+    b <- matrix(param, nrow=K, ncol=M-1)
+    Xb <- cbind(rep(0, N), X %*% b)
+    lli <- numeric(N)
+    
+    for (m in 1:M) {
+      lli <- lli + Y[,m]*Xb[,m] - Y[,m]*log(rowSums(exp(Xb)))
+    }
+    
+    return(-sum(lli))
+    
+  }
+  
+  out <- optim(b, mnlogitLL, method="BFGS")
+  est <- matrix(out$par, nrow=K, ncol=M-1)
+  rownames(est) <- colnames(X)
+  colnames(est) <- paste0(levels[1], "/", levels[2:M])
+  
+  return(t(est))
+  
+}
+
+
+```
+
+Testing the function:
+
+```{r}
+
+library(mclogit)
+housing <- MASS::housing #has an ordinal outcome but we'll ignore that for our purposes
+f <- Sat ~ Infl + Freq + Type
+
+mblogit(f, data = housing)
+mnlogit(housing, f)
+
+
+```
