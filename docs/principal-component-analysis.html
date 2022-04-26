@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb28-3"><a href="principal-component-analysis.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data[<span class="fu">complete.cases</span>(data),]</span>
 <span id="cb28-4"><a href="principal-component-analysis.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb28-5"><a href="principal-component-analysis.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (center) mat <span class="ot">&lt;-</span> <span class="fu">apply</span>(data, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="cf">else</span> mat <span class="ot">&lt;-</span> data</span>
-<span id="cb28-6"><a href="principal-component-analysis.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (scale) mat <span class="ot">&lt;-</span> <span class="fu">apply</span>(mat, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb28-6"><a href="principal-component-analysis.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (scale) <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(mat)) mat[,i] <span class="ot">&lt;-</span> mat[,i] <span class="sc">/</span> <span class="fu">sd</span>(data[,i])</span>
 <span id="cb28-7"><a href="principal-component-analysis.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb28-8"><a href="principal-component-analysis.html#cb28-8" aria-hidden="true" tabindex="-1"></a>  decomp <span class="ot">&lt;-</span> <span class="fu">svd</span>(mat)</span>
 <span id="cb28-9"><a href="principal-component-analysis.html#cb28-9" aria-hidden="true" tabindex="-1"></a>  var <span class="ot">&lt;-</span> (decomp<span class="sc">$</span>d<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="fu">nrow</span>(mat)<span class="sc">-</span><span class="dv">1</span>)</span>
@@ -206,16 +206,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="principal-component-analysis.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pca</span>(df)</span></code></pre></div>
 <pre><code>## $var
 ## [1] 2.372841e+00 1.121676e+00 1.022484e+00 8.585543e-01 6.244452e-01
-## [6] 3.650046e-31
+## [6] 3.628914e-31
 ## 
 ## $loadings
-##                   PC1         PC2         PC3         PC4        PC5       PC6
-## con_19    -0.54332983  0.07627559 -0.05082277 -0.56942560  0.1384571 0.5941178
-## lab_19     0.59823413 -0.07011487 -0.19959561  0.02259843 -0.4083210 0.6558389
-## ld_19     -0.39181511 -0.36512555  0.04767122  0.74424233  0.1153703 0.3790577
-## brexit_19  0.43609277 -0.25251232  0.24198884 -0.11374592  0.8065703 0.1549459
-## green_19   0.04764488  0.75339583 -0.43749954  0.30622933  0.3617630 0.1186169
-## other_19   0.03070171  0.47390033  0.83984620  0.12096531 -0.1391588 0.1874472</code></pre>
+##                   PC1         PC2         PC3         PC4        PC5        PC6
+## con_19    -0.54332983  0.07627559 -0.05082277 -0.56942560  0.1384571 -0.5941178
+## lab_19     0.59823413 -0.07011487 -0.19959561  0.02259843 -0.4083210 -0.6558389
+## ld_19     -0.39181511 -0.36512555  0.04767122  0.74424233  0.1153703 -0.3790577
+## brexit_19  0.43609277 -0.25251232  0.24198884 -0.11374592  0.8065703 -0.1549459
+## green_19   0.04764488  0.75339583 -0.43749954  0.30622933  0.3617630 -0.1186169
+## other_19   0.03070171  0.47390033  0.83984620  0.12096531 -0.1391588 -0.1874472</code></pre>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="principal-component-analysis.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Without centering and rescaling</span></span>
 <span id="cb35-2"><a href="principal-component-analysis.html#cb35-2" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(df, <span class="at">center=</span>F, <span class="at">scale.=</span>F)</span>
 <span id="cb35-3"><a href="principal-component-analysis.html#cb35-3" aria-hidden="true" tabindex="-1"></a>pc<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
