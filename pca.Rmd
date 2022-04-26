@@ -1,0 +1,57 @@
+# Principle Components Analysis
+
+<!-- Discussion of the model goes here -->
+
+```{r}
+
+pca <- function(data, scale=T, center=T) {
+  
+  data <- data[complete.cases(data),]
+  
+  if (center) mat <- apply(data, 2, function(x) x - mean(x)) else mat <- data
+  if (scale) mat <- apply(mat, 2, function(x) x / sd(x))
+  
+  decomp <- svd(mat)
+  var <- (decomp$d^2)/(nrow(mat)-1)
+  loadings <- decomp$v
+  
+  colnames(loadings) <- paste0("PC", 1:ncol(loadings))
+  rownames(loadings) <- colnames(mat)
+  
+  return(list(var=var, loadings=loadings))
+  
+}
+
+
+```
+
+Testing the function:
+
+```{r}
+
+# Dataset of English constituency vote shares from UK GE2019
+library(parlitools)
+df <- subset(bes_2019, 
+             subset=bes_2019$country=="England",
+             select=c("con_19", "lab_19", "ld_19", "brexit_19", "green_19", "other_19"))
+df <- apply(df, 2, function(x) ifelse(is.na(x), 0, x))
+
+
+# With centering and rescaling
+pc <- prcomp(df, scale.=T)
+pc$sdev^2
+pc$rotation
+
+pca(df)
+
+
+# Without centering and rescaling
+pc <- prcomp(df, center=F, scale.=F)
+pc$sdev^2
+pc$rotation
+
+pca(df, center=F, scale=F)
+
+
+
+```
