@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Principal Components Analysis | Collected R Code</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Principal Components Analysis | Collected R Code" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="philswatton/Collected-R-Code" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Principal Components Analysis | Collected R Code" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Phil Swatton" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="multinomial-logit.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="assets/book.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://philswatton.github.io/">Home</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#introduction">Introduction<span></span></a></li>
+<li><a href="ordinary-least-squares.html#ordinary-least-squares">Ordinary Least Squares<span></span></a></li>
+<li><a href="logit.html#logit">Logit<span></span></a></li>
+<li><a href="ordered-logit.html#ordered-logit">Ordered Logit<span></span></a></li>
+<li><a href="multinomial-logit.html#multinomial-logit">Multinomial Logit<span></span></a></li>
+<li><a href="principal-components-analysis.html#principal-components-analysis">Principal Components Analysis<span></span></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Collected R Code</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="principal-components-analysis" class="section level1 hasAnchor">
+<h1>Principal Components Analysis<a href="principal-components-analysis.html#principal-components-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<!-- Discussion of the model goes here -->
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="principal-components-analysis.html#cb28-1" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">scale=</span>T, <span class="at">center=</span>T) {</span>
+<span id="cb28-2"><a href="principal-components-analysis.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-3"><a href="principal-components-analysis.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data[<span class="fu">complete.cases</span>(data),]</span>
+<span id="cb28-4"><a href="principal-components-analysis.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-5"><a href="principal-components-analysis.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (center) mat <span class="ot">&lt;-</span> <span class="fu">apply</span>(data, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="cf">else</span> mat <span class="ot">&lt;-</span> data</span>
+<span id="cb28-6"><a href="principal-components-analysis.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (scale) mat <span class="ot">&lt;-</span> <span class="fu">apply</span>(mat, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb28-7"><a href="principal-components-analysis.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-8"><a href="principal-components-analysis.html#cb28-8" aria-hidden="true" tabindex="-1"></a>  decomp <span class="ot">&lt;-</span> <span class="fu">svd</span>(mat)</span>
+<span id="cb28-9"><a href="principal-components-analysis.html#cb28-9" aria-hidden="true" tabindex="-1"></a>  var <span class="ot">&lt;-</span> (decomp<span class="sc">$</span>d<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="fu">nrow</span>(mat)<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb28-10"><a href="principal-components-analysis.html#cb28-10" aria-hidden="true" tabindex="-1"></a>  loadings <span class="ot">&lt;-</span> decomp<span class="sc">$</span>v</span>
+<span id="cb28-11"><a href="principal-components-analysis.html#cb28-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-12"><a href="principal-components-analysis.html#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(loadings) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(loadings))</span>
+<span id="cb28-13"><a href="principal-components-analysis.html#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(loadings) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(mat)</span>
+<span id="cb28-14"><a href="principal-components-analysis.html#cb28-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-15"><a href="principal-components-analysis.html#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">var=</span>var, <span class="at">loadings=</span>loadings))</span>
+<span id="cb28-16"><a href="principal-components-analysis.html#cb28-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-17"><a href="principal-components-analysis.html#cb28-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Testing the function:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="principal-components-analysis.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset of English constituency vote shares from UK GE2019</span></span>
+<span id="cb29-2"><a href="principal-components-analysis.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parlitools)</span>
+<span id="cb29-3"><a href="principal-components-analysis.html#cb29-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">subset</span>(bes_2019, </span>
+<span id="cb29-4"><a href="principal-components-analysis.html#cb29-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">subset=</span>bes_2019<span class="sc">$</span>country<span class="sc">==</span><span class="st">&quot;England&quot;</span>,</span>
+<span id="cb29-5"><a href="principal-components-analysis.html#cb29-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">select=</span><span class="fu">c</span>(<span class="st">&quot;con_19&quot;</span>, <span class="st">&quot;lab_19&quot;</span>, <span class="st">&quot;ld_19&quot;</span>, <span class="st">&quot;brexit_19&quot;</span>, <span class="st">&quot;green_19&quot;</span>, <span class="st">&quot;other_19&quot;</span>))</span>
+<span id="cb29-6"><a href="principal-components-analysis.html#cb29-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">apply</span>(df, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">is.na</span>(x), <span class="dv">0</span>, x))</span>
+<span id="cb29-7"><a href="principal-components-analysis.html#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="principal-components-analysis.html#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="principal-components-analysis.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># With centering and rescaling</span></span>
+<span id="cb29-10"><a href="principal-components-analysis.html#cb29-10" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(df, <span class="at">scale.=</span>T)</span>
+<span id="cb29-11"><a href="principal-components-analysis.html#cb29-11" aria-hidden="true" tabindex="-1"></a>pc<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 2.372841e+00 1.121676e+00 1.022484e+00 8.585543e-01 6.244452e-01
+## [6] 3.622418e-31</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="principal-components-analysis.html#cb31-1" aria-hidden="true" tabindex="-1"></a>pc<span class="sc">$</span>rotation</span></code></pre></div>
+<pre><code>##                   PC1         PC2         PC3         PC4        PC5       PC6
+## con_19    -0.54332983  0.07627559 -0.05082277 -0.56942560  0.1384571 0.5941178
+## lab_19     0.59823413 -0.07011487 -0.19959561  0.02259843 -0.4083210 0.6558389
+## ld_19     -0.39181511 -0.36512555  0.04767122  0.74424233  0.1153703 0.3790577
+## brexit_19  0.43609277 -0.25251232  0.24198884 -0.11374592  0.8065703 0.1549459
+## green_19   0.04764488  0.75339583 -0.43749954  0.30622933  0.3617630 0.1186169
+## other_19   0.03070171  0.47390033  0.83984620  0.12096531 -0.1391588 0.1874472</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="principal-components-analysis.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pca</span>(df)</span></code></pre></div>
+<pre><code>## $var
+## [1] 2.372841e+00 1.121676e+00 1.022484e+00 8.585543e-01 6.244452e-01
+## [6] 3.650046e-31
+## 
+## $loadings
+##                   PC1         PC2         PC3         PC4        PC5       PC6
+## con_19    -0.54332983  0.07627559 -0.05082277 -0.56942560  0.1384571 0.5941178
+## lab_19     0.59823413 -0.07011487 -0.19959561  0.02259843 -0.4083210 0.6558389
+## ld_19     -0.39181511 -0.36512555  0.04767122  0.74424233  0.1153703 0.3790577
+## brexit_19  0.43609277 -0.25251232  0.24198884 -0.11374592  0.8065703 0.1549459
+## green_19   0.04764488  0.75339583 -0.43749954  0.30622933  0.3617630 0.1186169
+## other_19   0.03070171  0.47390033  0.83984620  0.12096531 -0.1391588 0.1874472</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="principal-components-analysis.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Without centering and rescaling</span></span>
+<span id="cb35-2"><a href="principal-components-analysis.html#cb35-2" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(df, <span class="at">center=</span>F, <span class="at">scale.=</span>F)</span>
+<span id="cb35-3"><a href="principal-components-analysis.html#cb35-3" aria-hidden="true" tabindex="-1"></a>pc<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 3601.582679  528.759516  102.026004   26.105736   14.712369    9.887987</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="principal-components-analysis.html#cb37-1" aria-hidden="true" tabindex="-1"></a>pc<span class="sc">$</span>rotation</span></code></pre></div>
+<pre><code>##                   PC1         PC2         PC3         PC4         PC5
+## con_19    -0.79601894  0.54348891  0.26225689 -0.02744832  0.02841558
+## lab_19    -0.57199009 -0.81268134 -0.05235555 -0.01872792 -0.07167662
+## ld_19     -0.18775368  0.19101255 -0.96262869  0.03485081  0.01576254
+## brexit_19 -0.03580223 -0.08665429  0.01318959  0.10999656  0.93237245
+## green_19  -0.04785633 -0.01272207  0.01544479  0.07000400 -0.34354616
+## other_19  -0.01891353  0.00349730  0.03759933  0.99029363 -0.08040029
+##                   PC6
+## con_19    -0.02518186
+## lab_19    -0.06439723
+## ld_19      0.01207155
+## brexit_19  0.33108554
+## green_19   0.93508548
+## other_19  -0.10521720</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="principal-components-analysis.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pca</span>(df, <span class="at">center=</span>F, <span class="at">scale=</span>F)</span></code></pre></div>
+<pre><code>## $var
+## [1] 3601.582679  528.759516  102.026004   26.105736   14.712369    9.887987
+## 
+## $loadings
+##                   PC1         PC2         PC3         PC4         PC5
+## con_19    -0.79601894  0.54348891  0.26225689 -0.02744832  0.02841558
+## lab_19    -0.57199009 -0.81268134 -0.05235555 -0.01872792 -0.07167662
+## ld_19     -0.18775368  0.19101255 -0.96262869  0.03485081  0.01576254
+## brexit_19 -0.03580223 -0.08665429  0.01318959  0.10999656  0.93237245
+## green_19  -0.04785633 -0.01272207  0.01544479  0.07000400 -0.34354616
+## other_19  -0.01891353  0.00349730  0.03759933  0.99029363 -0.08040029
+##                   PC6
+## con_19    -0.02518186
+## lab_19    -0.06439723
+## ld_19      0.01207155
+## brexit_19  0.33108554
+## green_19   0.93508548
+## other_19  -0.10521720</code></pre>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="multinomial-logit.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/pca.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Collected R Code.pdf", "Collected R Code.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
