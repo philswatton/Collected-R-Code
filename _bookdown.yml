@@ -11,5 +11,8 @@ rmd_files: [
   ols.Rmd,
   logit.Rmd,
   ologit.Rmd,
-  mnlogit.Rmd
+  mnlogit.Rmd,
+
+  # Data Reduction
+  pca.Rmd
 ]

@@ -1,4 +1,4 @@
-# Principle Components Analysis
+# Principal Component Analysis
 
 <!-- Discussion of the model goes here -->
 
@@ -9,7 +9,7 @@ pca <- function(data, scale=T, center=T) {
   data <- data[complete.cases(data),]
   
   if (center) mat <- apply(data, 2, function(x) x - mean(x)) else mat <- data
-  if (scale) mat <- apply(mat, 2, function(x) x / sd(x))
+  if (scale) for(i in 1:ncol(mat)) mat[,i] <- mat[,i] / sd(data[,i])
   
   decomp <- svd(mat)
   var <- (decomp$d^2)/(nrow(mat)-1)
