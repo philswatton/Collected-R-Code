@@ -1,3 +1,5 @@
+# (PART\*)  Models {-}
+
 # Ordinary Least Squares
 
 <!--Some example R code

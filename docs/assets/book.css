@@ -29,6 +29,12 @@ p {
 }
 
 
+/* TOC Sections
+.part > span {
+  margin: 0px;
+  padding: 0px;
+}*/
+
 /* In-text links */
 .book .book-body .page-wrapper .page-inner section.normal a {
   font-family: 'PT Sans', sans-serif;

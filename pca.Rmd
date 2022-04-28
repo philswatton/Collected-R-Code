@@ -1,3 +1,5 @@
+# (PART\*)  Data Reduction {-}
+
 # Principal Component Analysis
 
 <!-- Discussion of the model goes here -->
