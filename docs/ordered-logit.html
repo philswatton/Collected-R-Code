@@ -178,7 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-12"><a href="ordered-logit.html#cb13-12" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, mf)[,<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb13-13"><a href="ordered-logit.html#cb13-13" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
 <span id="cb13-14"><a href="ordered-logit.html#cb13-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb13-15"><a href="ordered-logit.html#cb13-15" aria-hidden="true" tabindex="-1"></a>  levels <span class="ot">&lt;-</span> <span class="fu">unique</span>(Y)</span>
+<span id="cb13-15"><a href="ordered-logit.html#cb13-15" aria-hidden="true" tabindex="-1"></a>  levels <span class="ot">&lt;-</span> <span class="fu">unique</span>(Y) <span class="sc">|&gt;</span> <span class="fu">sort</span>()</span>
 <span id="cb13-16"><a href="ordered-logit.html#cb13-16" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> <span class="fu">length</span>(levels)</span>
 <span id="cb13-17"><a href="ordered-logit.html#cb13-17" aria-hidden="true" tabindex="-1"></a>  ncut <span class="ot">&lt;-</span> M<span class="dv">-1</span></span>
 <span id="cb13-18"><a href="ordered-logit.html#cb13-18" aria-hidden="true" tabindex="-1"></a>  </span>

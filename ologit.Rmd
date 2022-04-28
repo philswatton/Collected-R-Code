@@ -18,7 +18,7 @@ ologit <- function(data, formula, na.action=na.exclude) {
   X <- model.matrix(formula, mf)[,-1]
   N <- nrow(X)
   
-  levels <- unique(Y)
+  levels <- unique(Y) |> sort()
   M <- length(levels)
   ncut <- M-1
   

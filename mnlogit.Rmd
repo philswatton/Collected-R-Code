@@ -12,7 +12,7 @@ mnlogit <- function(data, formula, na.action=na.exclude) {
   
   N <- nrow(X)
   K <- ncol(X)
-  levels <- unique(y)
+  levels <- unique(y) |> sort()
   M <- length(levels)
   
   Y <- matrix(N*M, nrow=N, ncol=M)

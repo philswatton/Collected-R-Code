@@ -172,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb20-6"><a href="multinomial-logit.html#cb20-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb20-7"><a href="multinomial-logit.html#cb20-7" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>
 <span id="cb20-8"><a href="multinomial-logit.html#cb20-8" aria-hidden="true" tabindex="-1"></a>  K <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
-<span id="cb20-9"><a href="multinomial-logit.html#cb20-9" aria-hidden="true" tabindex="-1"></a>  levels <span class="ot">&lt;-</span> <span class="fu">unique</span>(y)</span>
+<span id="cb20-9"><a href="multinomial-logit.html#cb20-9" aria-hidden="true" tabindex="-1"></a>  levels <span class="ot">&lt;-</span> <span class="fu">unique</span>(y) <span class="sc">|&gt;</span> <span class="fu">sort</span>()</span>
 <span id="cb20-10"><a href="multinomial-logit.html#cb20-10" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> <span class="fu">length</span>(levels)</span>
 <span id="cb20-11"><a href="multinomial-logit.html#cb20-11" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb20-12"><a href="multinomial-logit.html#cb20-12" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(N<span class="sc">*</span>M, <span class="at">nrow=</span>N, <span class="at">ncol=</span>M)</span>
