@@ -4,7 +4,7 @@
 
 ```{r}
 
-ridge <- function(X, Y, rm_na=T, standardise=F, intercept=F, lambda, method="matrix") {
+ridge <- function(X, Y, rm_na=T, standardise=F, lambda, method="matrix") {
   
   if (!is.matrix(X)) {
     X <- as.matrix(X)
@@ -20,10 +20,10 @@ ridge <- function(X, Y, rm_na=T, standardise=F, intercept=F, lambda, method="mat
     X <- apply(X, 2, function(x) (x - mean(x))/sd(x))
   }
   
-  if (intercept) {
-    X <- cbind(rep(1,nrow(X)), X)
-    colnames(X)[1] <- "(Intercept)"
-  }
+  # if (intercept) {
+  #   X <- cbind(rep(1,nrow(X)), X)
+  #   colnames(X)[1] <- "(Intercept)"
+  # }
   
   k <- ncol(X)
   
@@ -52,13 +52,18 @@ Testing the function:
 
 library(glmnet)
 
-X <- apply((mtcars[, -1]), 2, function(x) (x - mean(x))/sd(x))
+X <- as.matrix(mtcars[, -1])
+X_standard <- apply(X, 2, function(x) (x-mean(x)) / sd(x))
 Y <- mtcars[[1]]
 
 data.frame(
   glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
-  Ridge_Matrix = ridge(X, Y, lambda=0.5, method="matrix")[,1],
-  Ridge_MLE = ridge(X, Y, lambda=0.5, method="MLE")
+  ridge = ridge(X, Y, lambda=0.5)
+)
+
+data.frame(
+  glmnet = glmnet(X_standard, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
+  ridge = ridge(X_standard, Y, lambda=0.5)
 )
 
 ```
