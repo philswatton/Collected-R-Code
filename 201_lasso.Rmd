@@ -75,12 +75,12 @@ X_standard <- apply(X, 2, function(x) (x-mean(x)) / sd(x))
 Y <- mtcars[[1]]
 
 data.frame(
-  glmnet = glmnet(X, Y, alpha=1, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
+  glmnet = glmnet(X, Y, alpha=1, lambda=0.5, intercept = F, standardize=F)$beta[,1],
   lasso = lasso(X, Y, lambda=0.5)
 )
 
 data.frame(
-  glmnet = glmnet(X_standard, Y, alpha=1, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
+  glmnet = glmnet(X_standard, Y, alpha=1, lambda=0.5, intercept = F, standardize=F)$beta[,1],
   lasso = lasso(X_standard, Y, lambda=0.5)
 )
 

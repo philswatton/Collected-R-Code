@@ -231,35 +231,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb44-3"><a href="lasso-regression---l1-regularization.html#cb44-3" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> mtcars[[<span class="dv">1</span>]]</span>
 <span id="cb44-4"><a href="lasso-regression---l1-regularization.html#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-5"><a href="lasso-regression---l1-regularization.html#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb44-6"><a href="lasso-regression---l1-regularization.html#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">thresh =</span> <span class="fl">1e-16</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
+<span id="cb44-6"><a href="lasso-regression---l1-regularization.html#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
 <span id="cb44-7"><a href="lasso-regression---l1-regularization.html#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lasso =</span> <span class="fu">lasso</span>(X, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
 <span id="cb44-8"><a href="lasso-regression---l1-regularization.html#cb44-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>##            glmnet        lasso
-## cyl   0.000000000  0.000000000
-## disp -0.012341996 -0.012342881
-## hp   -0.007107688 -0.007107273
-## drat  1.226803494  1.226801727
-## wt   -1.034688395 -1.034551274
-## qsec  0.993392862  0.993371825
-## vs    0.000000000  0.000000000
-## am    0.000000000  0.000000000
-## gear  1.637349031  1.637404538
-## carb -0.340430706 -0.340473978</code></pre>
+<pre><code>##           glmnet        lasso
+## cyl   0.00000000  0.000000000
+## disp -0.01476942 -0.012342881
+## hp   -0.00578982 -0.007107273
+## drat  1.24524219  1.226801727
+## wt   -0.69362931 -1.034551274
+## qsec  0.94504513  0.993371825
+## vs    0.00000000  0.000000000
+## am    0.00000000  0.000000000
+## gear  1.73327735  1.637404538
+## carb -0.44294482 -0.340473978</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="lasso-regression---l1-regularization.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb46-2"><a href="lasso-regression---l1-regularization.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X_standard, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">thresh =</span> <span class="fl">1e-16</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
+<span id="cb46-2"><a href="lasso-regression---l1-regularization.html#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X_standard, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
 <span id="cb46-3"><a href="lasso-regression---l1-regularization.html#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">lasso =</span> <span class="fu">lasso</span>(X_standard, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
 <span id="cb46-4"><a href="lasso-regression---l1-regularization.html#cb46-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>##           glmnet       lasso
-## cyl  -1.53700736 -1.53700527
+## cyl  -1.51425578 -1.53700527
 ## disp  0.00000000  0.00000000
-## hp   -0.96091454 -0.96091464
-## drat  0.03332515  0.03332529
-## wt   -2.62683276 -2.62683457
+## hp   -0.98389039 -0.96091464
+## drat  0.02978391  0.03332529
+## wt   -2.63442748 -2.62683457
 ## qsec  0.00000000  0.00000000
 ## vs    0.00000000  0.00000000
-## am    0.22850288  0.22850260
+## am    0.23140313  0.22850260
 ## gear  0.00000000  0.00000000
-## carb -0.16064907 -0.16064929</code></pre>
+## carb -0.15265213 -0.16064929</code></pre>
 
 </div>
             </section>

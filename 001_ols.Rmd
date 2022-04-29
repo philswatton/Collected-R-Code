@@ -29,21 +29,22 @@ $$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 
 ```{r}
 
-ols <- function(data, formula, method="QR", na.action=na.exclude) {
+ols <- function(data, formula, method="QR") {
   
-  mf <- model.frame(formula, data, na.action=na.action)
+  mf <- model.frame(formula, data, na.action=na.exclude)
   Y <- model.response(mf, type="double")
   X <- model.matrix(formula, mf)
   
-  if (method == "matrix") B <- solve(crossprod(X)) %*% crossprod(X, Y)
+  if (method == "matrix") b <- solve(crossprod(X)) %*% crossprod(X, Y)
   if (method == "QR") {
     QR <- qr(X)
     Q <- qr.Q(QR)
     R <- qr.R(QR)
-    B <- backsolve(R, t(Q)%*%Y)
+    b <- backsolve(R, crossprod(Q,y))
+    rownames(b) <- colnames(X)
   }
   
-  return(B)
+  return(b)
 }
 
 ```
@@ -65,9 +66,9 @@ df <- data.frame(
 
 f <- y ~ X1 + X2
 
+coef(lm(f, df))
 ols(df, f)
 ols(df, f, "matrix")
-summary(lm(f, df))
 
 ```
 

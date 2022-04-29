@@ -57,13 +57,15 @@ X_standard <- apply(X, 2, function(x) (x-mean(x)) / sd(x))
 Y <- mtcars[[1]]
 
 data.frame(
-  glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
-  ridge = ridge(X, Y, lambda=0.5)
+  glmnet = glmnet(X, Y, alpha=0, lambda=0.5, intercept = F, standardize=F)$beta[,1],
+  Ridge_Matrix = ridge(X, Y, lambda=0.5),
+  Ridge_MLE = ridge(X, Y, lambda=0.5, method="MLE")
 )
 
 data.frame(
-  glmnet = glmnet(X_standard, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
-  ridge = ridge(X_standard, Y, lambda=0.5)
+  glmnet = glmnet(X_standard, Y, alpha=0, lambda=0.5, intercept = F, standardize=F)$beta[,1],
+  Ridge_Matrix = ridge(X_standard, Y, lambda=0.5),
+  Ridge_MLE = ridge(X_standard, Y, lambda=0.5, method="MLE")
 )
 
 ```

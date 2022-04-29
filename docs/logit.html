@@ -178,28 +178,30 @@ Follow up with R implementation -->
 <span id="cb8-5"><a href="logit.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-6"><a href="logit.html#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb8-7"><a href="logit.html#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="logit.html#cb8-8" aria-hidden="true" tabindex="-1"></a>logit <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula, <span class="at">na.action=</span>na.exclude) {</span>
+<span id="cb8-8"><a href="logit.html#cb8-8" aria-hidden="true" tabindex="-1"></a>logit <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula) {</span>
 <span id="cb8-9"><a href="logit.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-10"><a href="logit.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.action)</span>
+<span id="cb8-10"><a href="logit.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.exclude)</span>
 <span id="cb8-11"><a href="logit.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">model.response</span>(mf, <span class="at">type=</span><span class="st">&quot;double&quot;</span>)</span>
 <span id="cb8-12"><a href="logit.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, mf)</span>
 <span id="cb8-13"><a href="logit.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-14"><a href="logit.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(X))</span>
+<span id="cb8-14"><a href="logit.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(X))</span>
 <span id="cb8-15"><a href="logit.html#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-16"><a href="logit.html#cb8-16" aria-hidden="true" tabindex="-1"></a>  logitll <span class="ot">&lt;-</span> <span class="cf">function</span>(B) {</span>
+<span id="cb8-16"><a href="logit.html#cb8-16" aria-hidden="true" tabindex="-1"></a>  logitll <span class="ot">&lt;-</span> <span class="cf">function</span>(b) {</span>
 <span id="cb8-17"><a href="logit.html#cb8-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-18"><a href="logit.html#cb8-18" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">inv_logit</span>((X <span class="sc">%*%</span> B))</span>
+<span id="cb8-18"><a href="logit.html#cb8-18" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">inv_logit</span>((X <span class="sc">%*%</span> b))</span>
 <span id="cb8-19"><a href="logit.html#cb8-19" aria-hidden="true" tabindex="-1"></a>    lli <span class="ot">&lt;-</span> Y<span class="sc">*</span><span class="fu">log</span>(p) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>Y)<span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>p)</span>
 <span id="cb8-20"><a href="logit.html#cb8-20" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb8-21"><a href="logit.html#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="fu">sum</span>(lli))</span>
 <span id="cb8-22"><a href="logit.html#cb8-22" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb8-23"><a href="logit.html#cb8-23" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb8-24"><a href="logit.html#cb8-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-25"><a href="logit.html#cb8-25" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">optim</span>(B, logitll, <span class="at">method=</span><span class="st">&quot;BFGS&quot;</span>)</span>
-<span id="cb8-26"><a href="logit.html#cb8-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-27"><a href="logit.html#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(est<span class="sc">$</span>par)</span>
+<span id="cb8-25"><a href="logit.html#cb8-25" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">optim</span>(b, logitll, <span class="at">method=</span><span class="st">&quot;BFGS&quot;</span>)</span>
+<span id="cb8-26"><a href="logit.html#cb8-26" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> est<span class="sc">$</span>par</span>
+<span id="cb8-27"><a href="logit.html#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(b) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)</span>
 <span id="cb8-28"><a href="logit.html#cb8-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-29"><a href="logit.html#cb8-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb8-29"><a href="logit.html#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(b)</span>
+<span id="cb8-30"><a href="logit.html#cb8-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-31"><a href="logit.html#cb8-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Testing the function:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="logit.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb9-2"><a href="logit.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -215,13 +217,12 @@ Follow up with R implementation -->
 <span id="cb9-12"><a href="logit.html#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-13"><a href="logit.html#cb9-13" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> y <span class="sc">~</span> X1 <span class="sc">+</span> X2</span>
 <span id="cb9-14"><a href="logit.html#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="logit.html#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glm</span>(f,binomial,df))<span class="sc">$</span>coef</span></code></pre></div>
-<pre><code>##             Estimate Std. Error  z value     Pr(&gt;|z|)
-## (Intercept) 1.413335  0.1203875 11.73988 7.960399e-32
-## X1          1.839204  0.1439189 12.77945 2.135770e-37
-## X2          2.472301  0.1728920 14.29968 2.198073e-46</code></pre>
+<span id="cb9-15"><a href="logit.html#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">glm</span>(f,binomial,df))</span></code></pre></div>
+<pre><code>## (Intercept)          X1          X2 
+##    1.413335    1.839204    2.472301</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="logit.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logit</span>(df, f)</span></code></pre></div>
-<pre><code>## [1] 1.413368 1.839245 2.472373</code></pre>
+<pre><code>## (Intercept)          X1          X2 
+##    1.413368    1.839245    2.472373</code></pre>
 
 </div>
             </section>

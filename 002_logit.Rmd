@@ -13,26 +13,28 @@ inv_logit <- function(x) {
   
 }
 
-logit <- function(data, formula, na.action=na.exclude) {
+logit <- function(data, formula) {
   
-  mf <- model.frame(formula, data, na.action=na.action)
+  mf <- model.frame(formula, data, na.action=na.exclude)
   Y <- model.response(mf, type="double")
   X <- model.matrix(formula, mf)
   
-  B <- numeric(ncol(X))
+  b <- numeric(ncol(X))
   
-  logitll <- function(B) {
+  logitll <- function(b) {
     
-    p <- inv_logit((X %*% B))
+    p <- inv_logit((X %*% b))
     lli <- Y*log(p) + (1-Y)*log(1-p)
     
     return(-sum(lli))
     
   }
   
-  est <- optim(B, logitll, method="BFGS")
+  est <- optim(b, logitll, method="BFGS")
+  b <- est$par
+  names(b) <- colnames(X)
   
-  return(est$par)
+  return(b)
   
 }
 
@@ -57,7 +59,7 @@ df <- data.frame(
 
 f <- y ~ X1 + X2
 
-summary(glm(f,binomial,df))$coef
+coef(glm(f,binomial,df))
 logit(df, f)
 
 ```
