@@ -52,11 +52,11 @@ Testing the function:
 
 library(glmnet)
 
-X <- as.matrix(mtcars[, -1])
+X <- apply((mtcars[, -1]), 2, function(x) (x - mean(x))/sd(x))
 Y <- mtcars[[1]]
 
 data.frame(
-  glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F)$beta[,1],
+  glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
   Ridge_Matrix = ridge(X, Y, lambda=0.5, method="matrix")[,1],
   Ridge_MLE = ridge(X, Y, lambda=0.5, method="MLE")
 )
