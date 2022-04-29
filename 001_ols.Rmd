@@ -35,7 +35,7 @@ ols <- function(data, formula, method="QR", na.action=na.exclude) {
   Y <- model.response(mf, type="double")
   X <- model.matrix(formula, mf)
   
-  if (method == "matrix") B <- solve(crossprod(X,X)) %*% crossprod(X, Y)
+  if (method == "matrix") B <- solve(crossprod(X)) %*% crossprod(X, Y)
   if (method == "QR") {
     QR <- qr(X)
     Q <- qr.Q(QR)
