@@ -8,11 +8,11 @@ rmd_files: [
   index.Rmd,
 
   # Model Estimation
-  ols.Rmd,
-  logit.Rmd,
-  ologit.Rmd,
-  mnlogit.Rmd,
+  001_ols.Rmd,
+  002_logit.Rmd,
+  003_ologit.Rmd,
+  004_mnlogit.Rmd,
 
   # Data Reduction
-  pca.Rmd
+  101_pca.Rmd
 ]
