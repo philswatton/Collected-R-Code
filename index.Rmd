@@ -18,7 +18,7 @@ bookdown::render_book("index.Rmd")
 
 # Introduction
 
-This is a collection of R code written for the purposes of practice and demonstration. At the moment this is all in a work in progress stage. The long-term goal is to include lots of statistical and machine learning algorithms, covering model estimation and data reduction. I may also include some other interesting algorithms down the line.
+This is a collection of R code written for the purposes of practice and demonstration. At the moment this is all in a work in progress stage. The long-term goal is to include lots of statistical models and machine learning algorithms, covering model estimation and data reduction. I may also include some other interesting algorithms down the line.
 
 Beyond giving me both a venue for solidifying my understanding and acting as a sort of online advert for my skillset, I also hope that this document will end up being of use to some other people.
 
