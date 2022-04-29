@@ -1,0 +1,60 @@
+# Ridge Regression - L2 Regularization
+
+<!-- Discussion of the model goes here -->
+
+```{r}
+
+ridge <- function(X, Y, rm_na=T, add_intercept=F, lambda, method="matrix") {
+  
+  if (!is.matrix(X)) {
+    X <- as.matrix(X)
+  }
+  
+  if (rm_na) {
+    index <- complete.cases(X) & complete.cases(Y)
+    X <- X[index,]
+    Y <- Y[index]
+  }
+  
+  if (add_intercept) {
+    X <- cbind(rep(1,nrow(X)), X)
+    colnames(X)[1] <- "(Intercept)"
+  }
+  
+  k <- ncol(X)
+  
+  if (method=="matrix") {
+    w <- solve(crossprod(X) + lambda*diag(k)) %*% crossprod(X, Y)
+  } else if (method=="ML") {
+    start <- numeric(k)
+    ridgeMin <- function(w) {
+      crossprod(Y - X%*%w) + lambda * crossprod(w)
+    }
+    out <- optim(start, ridgeMin, method="BFGS")
+    w <- matrix(out$par, ncol=1)
+    rownames(w) <- colnames(X)
+  }
+  
+  return(w)
+  
+}
+
+
+```
+
+Testing the function:
+
+```{r}
+
+library(glmnet)
+
+X <- as.matrix(mtcars[, -1])
+Y <- mtcars[[1]]
+
+data.frame(
+  glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F)$beta[,1],
+  `Ridge Matrix` = ridge(X, Y, lambda=0.5, method="matrix")[,1],
+  `Ridge ML` = ridge(X, Y, lambda=0.5, method="ML")[,1]
+)
+
+```
