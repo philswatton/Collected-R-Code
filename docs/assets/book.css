@@ -13,6 +13,16 @@ p {
     color: rgb(0, 0, 0);
 }
 
+.book .book-body .page-wrapper .page-inner section.normal a {
+  color: rgba(2, 63, 144, 1);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal a:hover {
+  text-decoration: underline;
+}
+
 
 /* ToC */
 .book .book-summary ul.summary li a {
@@ -53,17 +63,4 @@ p {
 .book .book-summary ul.summary .part span b span {
   padding: 0px;
   margin: 0px;
-}
-
-
-/* In-text links */
-.book .book-body .page-wrapper .page-inner section.normal a {
-  font-family: 'PT Sans', sans-serif;
-  color: rgba(2, 63, 144, 1);
-  text-decoration: none;
-}
-
-.book .book-body .page-wrapper .page-inner section.normal a:hover {
-  color: rgba(2, 63, 144, 1);
-  text-decoration: underline;
 }
