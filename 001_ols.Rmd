@@ -1,4 +1,4 @@
-# (PART\*) Statistical Models
+# (PART\*) Statistical Models {-}
 
 # Ordinary Least Squares
 

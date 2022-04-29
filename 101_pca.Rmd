@@ -1,4 +1,4 @@
-# (PART\*)  Data Reduction
+# (PART\*)  Data Reduction {-}
 
 # Principal Component Analysis
 
