@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="principal-component-analysis.html"/>
+<link rel="prev" href="lasso-regression---l1-regularization.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -143,6 +143,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="multinomial-logit.html#multinomial-logit">Multinomial Logit<span></span></a></li>
 <li class="part"><span><b>Data Reduction<span></span></b></span></li>
 <li><a href="principal-component-analysis.html#principal-component-analysis">Principal Component Analysis<span></span></a></li>
+<li class="part"><span><b>Machine Learning<span></span></b></span></li>
+<li><a href="lasso-regression---l1-regularization.html#lasso-regression---l1-regularization">LASSO Regression - L1 Regularization<span></span></a></li>
 <li><a href="ridge-regression---l2-regularization.html#ridge-regression---l2-regularization">Ridge Regression - L2 Regularization<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -167,62 +169,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ridge-regression---l2-regularization" class="section level1 hasAnchor">
 <h1>Ridge Regression - L2 Regularization<a href="ridge-regression---l2-regularization.html#ridge-regression---l2-regularization" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <!-- Discussion of the model goes here -->
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="ridge-regression---l2-regularization.html#cb41-1" aria-hidden="true" tabindex="-1"></a>ridge <span class="ot">&lt;-</span> <span class="cf">function</span>(X, Y, <span class="at">rm_na=</span>T, <span class="at">intercept=</span>F, lambda, <span class="at">method=</span><span class="st">&quot;matrix&quot;</span>) {</span>
-<span id="cb41-2"><a href="ridge-regression---l2-regularization.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-3"><a href="ridge-regression---l2-regularization.html#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) {</span>
-<span id="cb41-4"><a href="ridge-regression---l2-regularization.html#cb41-4" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
-<span id="cb41-5"><a href="ridge-regression---l2-regularization.html#cb41-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb41-6"><a href="ridge-regression---l2-regularization.html#cb41-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-7"><a href="ridge-regression---l2-regularization.html#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (rm_na) {</span>
-<span id="cb41-8"><a href="ridge-regression---l2-regularization.html#cb41-8" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(X) <span class="sc">&amp;</span> <span class="fu">complete.cases</span>(Y)</span>
-<span id="cb41-9"><a href="ridge-regression---l2-regularization.html#cb41-9" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> X[index,]</span>
-<span id="cb41-10"><a href="ridge-regression---l2-regularization.html#cb41-10" aria-hidden="true" tabindex="-1"></a>    Y <span class="ot">&lt;-</span> Y[index]</span>
-<span id="cb41-11"><a href="ridge-regression---l2-regularization.html#cb41-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb41-12"><a href="ridge-regression---l2-regularization.html#cb41-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-13"><a href="ridge-regression---l2-regularization.html#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (intercept) {</span>
-<span id="cb41-14"><a href="ridge-regression---l2-regularization.html#cb41-14" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">nrow</span>(X)), X)</span>
-<span id="cb41-15"><a href="ridge-regression---l2-regularization.html#cb41-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(X)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;(Intercept)&quot;</span></span>
-<span id="cb41-16"><a href="ridge-regression---l2-regularization.html#cb41-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb41-17"><a href="ridge-regression---l2-regularization.html#cb41-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-18"><a href="ridge-regression---l2-regularization.html#cb41-18" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
-<span id="cb41-19"><a href="ridge-regression---l2-regularization.html#cb41-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-20"><a href="ridge-regression---l2-regularization.html#cb41-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method<span class="sc">==</span><span class="st">&quot;matrix&quot;</span>) {</span>
-<span id="cb41-21"><a href="ridge-regression---l2-regularization.html#cb41-21" aria-hidden="true" tabindex="-1"></a>    w <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X) <span class="sc">+</span> lambda<span class="sc">*</span><span class="fu">diag</span>(k)) <span class="sc">%*%</span> <span class="fu">crossprod</span>(X, Y)</span>
-<span id="cb41-22"><a href="ridge-regression---l2-regularization.html#cb41-22" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (method<span class="sc">==</span><span class="st">&quot;MLE&quot;</span>) {</span>
-<span id="cb41-23"><a href="ridge-regression---l2-regularization.html#cb41-23" aria-hidden="true" tabindex="-1"></a>    start <span class="ot">&lt;-</span> <span class="fu">numeric</span>(k)</span>
-<span id="cb41-24"><a href="ridge-regression---l2-regularization.html#cb41-24" aria-hidden="true" tabindex="-1"></a>    ridgeMin <span class="ot">&lt;-</span> <span class="cf">function</span>(w) {</span>
-<span id="cb41-25"><a href="ridge-regression---l2-regularization.html#cb41-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">crossprod</span>(Y <span class="sc">-</span> X<span class="sc">%*%</span>w) <span class="sc">+</span> lambda <span class="sc">*</span> <span class="fu">crossprod</span>(w)</span>
-<span id="cb41-26"><a href="ridge-regression---l2-regularization.html#cb41-26" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb41-27"><a href="ridge-regression---l2-regularization.html#cb41-27" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">optim</span>(start, ridgeMin, <span class="at">method=</span><span class="st">&quot;BFGS&quot;</span>)</span>
-<span id="cb41-28"><a href="ridge-regression---l2-regularization.html#cb41-28" aria-hidden="true" tabindex="-1"></a>    w <span class="ot">&lt;-</span> <span class="fu">matrix</span>(out<span class="sc">$</span>par, <span class="at">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb41-29"><a href="ridge-regression---l2-regularization.html#cb41-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames</span>(w) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)</span>
-<span id="cb41-30"><a href="ridge-regression---l2-regularization.html#cb41-30" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb41-31"><a href="ridge-regression---l2-regularization.html#cb41-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-32"><a href="ridge-regression---l2-regularization.html#cb41-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(w)</span>
-<span id="cb41-33"><a href="ridge-regression---l2-regularization.html#cb41-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-34"><a href="ridge-regression---l2-regularization.html#cb41-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ridge-regression---l2-regularization.html#cb48-1" aria-hidden="true" tabindex="-1"></a>ridge <span class="ot">&lt;-</span> <span class="cf">function</span>(X, Y, <span class="at">rm_na=</span>T, <span class="at">standardise=</span>F, lambda, <span class="at">method=</span><span class="st">&quot;matrix&quot;</span>) {</span>
+<span id="cb48-2"><a href="ridge-regression---l2-regularization.html#cb48-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-3"><a href="ridge-regression---l2-regularization.html#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) {</span>
+<span id="cb48-4"><a href="ridge-regression---l2-regularization.html#cb48-4" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
+<span id="cb48-5"><a href="ridge-regression---l2-regularization.html#cb48-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb48-6"><a href="ridge-regression---l2-regularization.html#cb48-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-7"><a href="ridge-regression---l2-regularization.html#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (rm_na) {</span>
+<span id="cb48-8"><a href="ridge-regression---l2-regularization.html#cb48-8" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(X) <span class="sc">&amp;</span> <span class="fu">complete.cases</span>(Y)</span>
+<span id="cb48-9"><a href="ridge-regression---l2-regularization.html#cb48-9" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> X[index,]</span>
+<span id="cb48-10"><a href="ridge-regression---l2-regularization.html#cb48-10" aria-hidden="true" tabindex="-1"></a>    Y <span class="ot">&lt;-</span> Y[index]</span>
+<span id="cb48-11"><a href="ridge-regression---l2-regularization.html#cb48-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb48-12"><a href="ridge-regression---l2-regularization.html#cb48-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-13"><a href="ridge-regression---l2-regularization.html#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (standardise) {</span>
+<span id="cb48-14"><a href="ridge-regression---l2-regularization.html#cb48-14" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sd</span>(x))</span>
+<span id="cb48-15"><a href="ridge-regression---l2-regularization.html#cb48-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb48-16"><a href="ridge-regression---l2-regularization.html#cb48-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-17"><a href="ridge-regression---l2-regularization.html#cb48-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if (intercept) {</span></span>
+<span id="cb48-18"><a href="ridge-regression---l2-regularization.html#cb48-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   X &lt;- cbind(rep(1,nrow(X)), X)</span></span>
+<span id="cb48-19"><a href="ridge-regression---l2-regularization.html#cb48-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   colnames(X)[1] &lt;- &quot;(Intercept)&quot;</span></span>
+<span id="cb48-20"><a href="ridge-regression---l2-regularization.html#cb48-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># }</span></span>
+<span id="cb48-21"><a href="ridge-regression---l2-regularization.html#cb48-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-22"><a href="ridge-regression---l2-regularization.html#cb48-22" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb48-23"><a href="ridge-regression---l2-regularization.html#cb48-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-24"><a href="ridge-regression---l2-regularization.html#cb48-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method<span class="sc">==</span><span class="st">&quot;matrix&quot;</span>) {</span>
+<span id="cb48-25"><a href="ridge-regression---l2-regularization.html#cb48-25" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X) <span class="sc">+</span> lambda<span class="sc">*</span><span class="fu">diag</span>(k)) <span class="sc">%*%</span> <span class="fu">crossprod</span>(X, Y)</span>
+<span id="cb48-26"><a href="ridge-regression---l2-regularization.html#cb48-26" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (method<span class="sc">==</span><span class="st">&quot;MLE&quot;</span>) {</span>
+<span id="cb48-27"><a href="ridge-regression---l2-regularization.html#cb48-27" aria-hidden="true" tabindex="-1"></a>    start <span class="ot">&lt;-</span> <span class="fu">numeric</span>(k)</span>
+<span id="cb48-28"><a href="ridge-regression---l2-regularization.html#cb48-28" aria-hidden="true" tabindex="-1"></a>    ridgeMin <span class="ot">&lt;-</span> <span class="cf">function</span>(b) {</span>
+<span id="cb48-29"><a href="ridge-regression---l2-regularization.html#cb48-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">crossprod</span>(Y <span class="sc">-</span> X<span class="sc">%*%</span>b) <span class="sc">+</span> lambda <span class="sc">*</span> <span class="fu">crossprod</span>(b)</span>
+<span id="cb48-30"><a href="ridge-regression---l2-regularization.html#cb48-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb48-31"><a href="ridge-regression---l2-regularization.html#cb48-31" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">optim</span>(start, ridgeMin, <span class="at">method=</span><span class="st">&quot;BFGS&quot;</span>)</span>
+<span id="cb48-32"><a href="ridge-regression---l2-regularization.html#cb48-32" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> out<span class="sc">$</span>par</span>
+<span id="cb48-33"><a href="ridge-regression---l2-regularization.html#cb48-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(b) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)</span>
+<span id="cb48-34"><a href="ridge-regression---l2-regularization.html#cb48-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb48-35"><a href="ridge-regression---l2-regularization.html#cb48-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-36"><a href="ridge-regression---l2-regularization.html#cb48-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(b)</span>
+<span id="cb48-37"><a href="ridge-regression---l2-regularization.html#cb48-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-38"><a href="ridge-regression---l2-regularization.html#cb48-38" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Testing the function:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="ridge-regression---l2-regularization.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
-<pre><code>## Loaded glmnet 4.1-4</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="ridge-regression---l2-regularization.html#cb44-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mtcars[, <span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb44-2"><a href="ridge-regression---l2-regularization.html#cb44-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> mtcars[[<span class="dv">1</span>]]</span>
-<span id="cb44-3"><a href="ridge-regression---l2-regularization.html#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="ridge-regression---l2-regularization.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb44-5"><a href="ridge-regression---l2-regularization.html#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X, Y, <span class="at">alpha=</span><span class="dv">0</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">thresh =</span> <span class="fl">1e-16</span>, <span class="at">intercept =</span> F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
-<span id="cb44-6"><a href="ridge-regression---l2-regularization.html#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ridge_Matrix =</span> <span class="fu">ridge</span>(X, Y, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">method=</span><span class="st">&quot;matrix&quot;</span>)[,<span class="dv">1</span>],</span>
-<span id="cb44-7"><a href="ridge-regression---l2-regularization.html#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ridge_MLE =</span> <span class="fu">ridge</span>(X, Y, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">method=</span><span class="st">&quot;MLE&quot;</span>)[,<span class="dv">1</span>]</span>
-<span id="cb44-8"><a href="ridge-regression---l2-regularization.html#cb44-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>##            glmnet Ridge_Matrix    Ridge_MLE
-## cyl   0.382562012  0.369554729  0.369555066
-## disp  0.004206853  0.008205706  0.008205705
-## hp   -0.013929520 -0.017783212 -0.017783227
-## drat  1.540934931  1.392774438  1.392772924
-## wt   -2.727560155 -3.210741706 -3.210737396
-## qsec  1.018004656  1.083489203  1.083488388
-## vs    0.145524899  0.078258643  0.078262480
-## am    2.713810960  2.425849951  2.425855958
-## gear  1.194955680  1.299391499  1.299392402
-## carb -0.613767023 -0.469904311 -0.469904608</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="ridge-regression---l2-regularization.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb49-2"><a href="ridge-regression---l2-regularization.html#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="ridge-regression---l2-regularization.html#cb49-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mtcars[, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb49-4"><a href="ridge-regression---l2-regularization.html#cb49-4" aria-hidden="true" tabindex="-1"></a>X_standard <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(x) (x<span class="sc">-</span><span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb49-5"><a href="ridge-regression---l2-regularization.html#cb49-5" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> mtcars[[<span class="dv">1</span>]]</span>
+<span id="cb49-6"><a href="ridge-regression---l2-regularization.html#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="ridge-regression---l2-regularization.html#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb49-8"><a href="ridge-regression---l2-regularization.html#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X, Y, <span class="at">alpha=</span><span class="dv">0</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">thresh =</span> <span class="fl">1e-16</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
+<span id="cb49-9"><a href="ridge-regression---l2-regularization.html#cb49-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ridge =</span> <span class="fu">ridge</span>(X, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
+<span id="cb49-10"><a href="ridge-regression---l2-regularization.html#cb49-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>##            glmnet        ridge
+## cyl   0.374790786  0.369554729
+## disp  0.006183499  0.008205706
+## hp   -0.016705862 -0.017783212
+## drat  1.435599127  1.392774438
+## wt   -2.984416583 -3.210741706
+## qsec  1.048304867  1.083489203
+## vs    0.043144589  0.078258643
+## am    2.282659223  2.425849951
+## gear  1.376685079  1.299391499
+## carb -0.537955121 -0.469904311</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="ridge-regression---l2-regularization.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb51-2"><a href="ridge-regression---l2-regularization.html#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X_standard, Y, <span class="at">alpha=</span><span class="dv">0</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">thresh =</span> <span class="fl">1e-16</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
+<span id="cb51-3"><a href="ridge-regression---l2-regularization.html#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ridge =</span> <span class="fu">ridge</span>(X_standard, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
+<span id="cb51-4"><a href="ridge-regression---l2-regularization.html#cb51-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>##          glmnet      ridge
+## cyl  -0.2629593 -0.2279229
+## disp  0.4314492  0.6833358
+## hp   -1.0660256 -1.1445907
+## drat  0.4875049  0.4749628
+## wt   -2.5456558 -2.7815105
+## qsec  0.9545988  1.0764747
+## vs    0.1815571  0.1724660
+## am    1.1689479  1.1941804
+## gear  0.5097134  0.5117097
+## carb -0.8756238 -0.7712839</code></pre>
 
 </div>
             </section>
@@ -230,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="principal-component-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lasso-regression---l1-regularization.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

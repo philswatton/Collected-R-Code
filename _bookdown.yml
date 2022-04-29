@@ -17,5 +17,6 @@ rmd_files: [
   101_pca.Rmd,
 
   # Machine Learning
+  201_lasso.rmd,
   202_ridge.rmd
 ]
