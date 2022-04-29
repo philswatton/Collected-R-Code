@@ -4,7 +4,7 @@
 
 ```{r}
 
-ridge <- function(X, Y, rm_na=T, intercept=F, lambda, method="matrix") {
+ridge <- function(X, Y, rm_na=T, standardise=F, intercept=F, lambda, method="matrix") {
   
   if (!is.matrix(X)) {
     X <- as.matrix(X)
@@ -16,6 +16,10 @@ ridge <- function(X, Y, rm_na=T, intercept=F, lambda, method="matrix") {
     Y <- Y[index]
   }
   
+  if (standardise) {
+    X <- apply(X, 2, function(x) (x - mean(x))/sd(x))
+  }
+  
   if (intercept) {
     X <- cbind(rep(1,nrow(X)), X)
     colnames(X)[1] <- "(Intercept)"
@@ -24,18 +28,18 @@ ridge <- function(X, Y, rm_na=T, intercept=F, lambda, method="matrix") {
   k <- ncol(X)
   
   if (method=="matrix") {
-    w <- solve(crossprod(X) + lambda*diag(k)) %*% crossprod(X, Y)
+    b <- solve(crossprod(X) + lambda*diag(k)) %*% crossprod(X, Y)
   } else if (method=="MLE") {
     start <- numeric(k)
-    ridgeMin <- function(w) {
-      crossprod(Y - X%*%w) + lambda * crossprod(w)
+    ridgeMin <- function(b) {
+      crossprod(Y - X%*%b) + lambda * crossprod(b)
     }
     out <- optim(start, ridgeMin, method="BFGS")
-    w <- matrix(out$par, ncol=1)
-    rownames(w) <- colnames(X)
+    b <- out$par
+    names(b) <- colnames(X)
   }
   
-  return(w)
+  return(b)
   
 }
 
@@ -54,7 +58,7 @@ Y <- mtcars[[1]]
 data.frame(
   glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F)$beta[,1],
   Ridge_Matrix = ridge(X, Y, lambda=0.5, method="matrix")[,1],
-  Ridge_MLE = ridge(X, Y, lambda=0.5, method="MLE")[,1]
+  Ridge_MLE = ridge(X, Y, lambda=0.5, method="MLE")
 )
 
 ```
