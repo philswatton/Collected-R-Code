@@ -25,7 +25,7 @@ ridge <- function(X, Y, rm_na=T, add_intercept=F, lambda, method="matrix") {
   
   if (method=="matrix") {
     w <- solve(crossprod(X) + lambda*diag(k)) %*% crossprod(X, Y)
-  } else if (method=="ML") {
+  } else if (method=="MLE") {
     start <- numeric(k)
     ridgeMin <- function(w) {
       crossprod(Y - X%*%w) + lambda * crossprod(w)
@@ -53,8 +53,8 @@ Y <- mtcars[[1]]
 
 data.frame(
   glmnet = glmnet(X, Y, alpha=0, lambda=0.5, thresh = 1e-16, intercept = F)$beta[,1],
-  `Ridge Matrix` = ridge(X, Y, lambda=0.5, method="matrix")[,1],
-  `Ridge ML` = ridge(X, Y, lambda=0.5, method="ML")[,1]
+  Ridge_Matrix = ridge(X, Y, lambda=0.5, method="matrix")[,1],
+  Ridge_MLE = ridge(X, Y, lambda=0.5, method="MLE")[,1]
 )
 
 ```
