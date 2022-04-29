@@ -4,9 +4,9 @@
 
 ```{r}
 
-mnlogit <- function(data, formula, na.action=na.exclude) {
+mnlogit <- function(data, formula) {
   
-  mf <- model.frame(formula, data, na.action=na.action)
+  mf <- model.frame(formula, data, na.action=na.exclude)
   y <- model.response(mf)
   X <- model.matrix(formula, mf)
   

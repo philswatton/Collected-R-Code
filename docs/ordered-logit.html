@@ -178,7 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-7"><a href="ordered-logit.html#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-8"><a href="ordered-logit.html#cb13-8" aria-hidden="true" tabindex="-1"></a>ologit <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula, <span class="at">na.action=</span>na.exclude) {</span>
 <span id="cb13-9"><a href="ordered-logit.html#cb13-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb13-10"><a href="ordered-logit.html#cb13-10" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.action)</span>
+<span id="cb13-10"><a href="ordered-logit.html#cb13-10" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.exclude)</span>
 <span id="cb13-11"><a href="ordered-logit.html#cb13-11" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">model.response</span>(mf)</span>
 <span id="cb13-12"><a href="ordered-logit.html#cb13-12" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, mf)[,<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb13-13"><a href="ordered-logit.html#cb13-13" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span>

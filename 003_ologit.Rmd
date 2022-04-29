@@ -13,7 +13,7 @@ inv_logit <- function(x) {
 
 ologit <- function(data, formula, na.action=na.exclude) {
   
-  mf <- model.frame(formula, data, na.action=na.action)
+  mf <- model.frame(formula, data, na.action=na.exclude)
   Y <- model.response(mf)
   X <- model.matrix(formula, mf)[,-1]
   N <- nrow(X)
