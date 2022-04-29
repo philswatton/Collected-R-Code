@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
+<link rel="prev" href="part-statistical-models.html"/>
 <link rel="next" href="logit.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -136,7 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li><a href="index.html#introduction">Introduction<span></span></a></li>
-<li class="part"><span><b>Models<span></span></b></span></li>
+<li class="part"><span><b>Statistical Models<span></span></b></span></li>
 <li><a href="ordinary-least-squares.html#ordinary-least-squares">Ordinary Least Squares<span></span></a></li>
 <li><a href="logit.html#logit">Logit<span></span></a></li>
 <li><a href="ordered-logit.html#ordered-logit">Ordered Logit<span></span></a></li>
@@ -194,7 +194,7 @@ $$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 <span id="cb1-4"><a href="ordinary-least-squares.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">model.response</span>(mf, <span class="at">type=</span><span class="st">&quot;double&quot;</span>)</span>
 <span id="cb1-5"><a href="ordinary-least-squares.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, mf)</span>
 <span id="cb1-6"><a href="ordinary-least-squares.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-7"><a href="ordinary-least-squares.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;matrix&quot;</span>) B <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Y</span>
+<span id="cb1-7"><a href="ordinary-least-squares.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;matrix&quot;</span>) B <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X,X)) <span class="sc">%*%</span> <span class="fu">crossprod</span>(X, Y)</span>
 <span id="cb1-8"><a href="ordinary-least-squares.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">&quot;QR&quot;</span>) {</span>
 <span id="cb1-9"><a href="ordinary-least-squares.html#cb1-9" aria-hidden="true" tabindex="-1"></a>    QR <span class="ot">&lt;-</span> <span class="fu">qr</span>(X)</span>
 <span id="cb1-10"><a href="ordinary-least-squares.html#cb1-10" aria-hidden="true" tabindex="-1"></a>    Q <span class="ot">&lt;-</span> <span class="fu">qr.Q</span>(QR)</span>
@@ -255,7 +255,7 @@ $$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="part-statistical-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="logit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -287,7 +287,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/ols.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/001_ols.Rmd",
 "text": "Edit"
 },
 "history": {
