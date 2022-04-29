@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&family=PT+Serif&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
 
-
 /* Text */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Karla', sans-serif;
@@ -15,25 +14,47 @@ p {
 }
 
 
-/* ToC Links */
+/* ToC */
 .book .book-summary ul.summary li a {
   font-family: 'Karla', sans-serif;
   font-weight: bold;
   color: rgba(52, 61, 70, 1);
   text-decoration: none;
+  padding: 5px 0px 5px 25px;
 }
 
-.book .book-summary ul.summary li a:hover {
+.book .book-summary ul.summary li a:hover{
   color: rgba(52, 61, 70, 1);
   text-decoration: underline;
 }
 
-
-/* TOC Sections
-.part > span {
-  margin: 0px;
+.book .book-summary ul.summary .part {
   padding: 0px;
-}*/
+  margin: 0px;
+}
+
+.book .book-summary ul.summary .part span {
+  padding: 0px;
+  margin: 25px 0px 5px 25px;
+}
+
+.book .book-summary ul.summary .part span b {
+  font-family: 'Karla', sans-serif;
+  font-weight: bold
+  padding: 5px 0px 5px 25px;
+
+}
+
+.book .book-summary ul.summary .part span span {
+  padding: 0px;
+  margin: 0px;
+}
+
+.book .book-summary ul.summary .part span b span {
+  padding: 0px;
+  margin: 0px;
+}
+
 
 /* In-text links */
 .book .book-body .page-wrapper .page-inner section.normal a {
