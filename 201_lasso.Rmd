@@ -1,0 +1,87 @@
+# (PART\*) Machine Learning {-}
+
+# LASSO Regression - L1 Regularization
+
+<!-- Discussion of the model goes here -->
+
+```{r}
+
+lasso <- function(X, Y, rm_na=T, standardise=F, lambda, tol=1e-6, max_iter=1e+5) {
+  
+  if (!is.matrix(X)) {
+    X <- as.matrix(X)
+  }
+  
+  if (rm_na) {
+    index <- complete.cases(X) & complete.cases(Y)
+    X <- X[index,]
+    Y <- Y[index]
+  }
+  
+  if (standardise) {
+    X <- apply(X, 2, function(x) (x - mean(x))/sd(x))
+  }
+  
+  # if (intercept) {
+  #   X <- cbind(rep(1,nrow(X)), X)
+  #   colnames(X)[1] <- "(Intercept)"
+  # }
+  
+  # optim's methods won't produce variable selection - see https://stats.stackexchange.com/questions/121209/how-can-i-implement-lasso-in-r-using-optim-function
+  # so estimate via coordinate descent
+  
+  K <- ncol(X)
+  b <- numeric(ncol(X))
+  # b <- solve(crossprod(X) + lambda*diag(K)) %*% crossprod(X, Y)
+  names(b) <- colnames(X)
+  
+  soft_thresh <- function(b, l) {
+    
+    ifelse(l < abs(b), sign(b)*(abs(b) - l), 0)
+    
+  }
+  
+  current <- 1
+  for (iter in 1:max_iter) {
+    
+    b_old <- b
+    
+    for (k in 1:K) {
+      r <- Y - X[,-k] %*% b[-k]
+      b[k] <- soft_thresh(crossprod(X[,k],r), length(Y)*lambda)/crossprod(X[,k]) #length(y) gives consistent results w/ glmnet
+    }
+    
+    current <- norm(as.matrix(b-b_old), "F")
+    if (which.min(c(tol,current))==2) break
+    if (any(is.na(b)) | any(is.nan(b))) break 
+    
+  }
+  
+  return(b)
+  
+}
+
+
+```
+
+Testing the function:
+
+```{r}
+
+library(glmnet)
+
+X <- as.matrix(mtcars[, -1])
+X_standard <- apply(X, 2, function(x) (x-mean(x)) / sd(x))
+Y <- mtcars[[1]]
+
+data.frame(
+  glmnet = glmnet(X, Y, alpha=1, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
+  lasso = lasso(X, Y, lambda=0.5)
+)
+
+data.frame(
+  glmnet = glmnet(X_standard, Y, alpha=1, lambda=0.5, thresh = 1e-16, intercept = F, standardize=F)$beta[,1],
+  lasso = lasso(X_standard, Y, lambda=0.5)
+)
+
+```
