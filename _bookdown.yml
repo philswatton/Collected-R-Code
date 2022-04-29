@@ -14,7 +14,8 @@ rmd_files: [
   004_mnlogit.Rmd,
 
   # Data Reduction
-  101_pca.Rmd
+  101_pca.Rmd,
 
   # Machine Learning
+  202_ridge.rmd
 ]
