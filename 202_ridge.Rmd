@@ -4,7 +4,7 @@
 
 ```{r}
 
-ridge <- function(X, Y, rm_na=T, add_intercept=F, lambda, method="matrix") {
+ridge <- function(X, Y, rm_na=T, intercept=F, lambda, method="matrix") {
   
   if (!is.matrix(X)) {
     X <- as.matrix(X)
@@ -16,7 +16,7 @@ ridge <- function(X, Y, rm_na=T, add_intercept=F, lambda, method="matrix") {
     Y <- Y[index]
   }
   
-  if (add_intercept) {
+  if (intercept) {
     X <- cbind(rep(1,nrow(X)), X)
     colnames(X)[1] <- "(Intercept)"
   }
