@@ -7,16 +7,19 @@ delete_merged_file: true
 rmd_files: [
   index.Rmd,
 
+  # Optimization
+  # MLE, gradient descent, coordinate descent, bfgs, etc go here
+
   # Statistical Models
-  001_ols.Rmd,
-  002_logit.Rmd,
-  003_ologit.Rmd,
-  004_mnlogit.Rmd,
+  101_ols.Rmd,
+  102_logit.Rmd,
+  103_ologit.Rmd,
+  104_mnlogit.Rmd,
 
   # Data Reduction
-  101_pca.Rmd,
+  201_pca.Rmd,
 
   # Machine Learning
-  201_lasso.rmd,
-  202_ridge.rmd
+  301_lasso.rmd,
+  302_ridge.rmd
 ]
