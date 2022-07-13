@@ -9,10 +9,47 @@
 
 ```{r}
 
-# ugmm <- function(X, , ) {
-#   
-#   
-# }
+ugmm <- function(X, K, tol) {
+  
+  # Basics of X
+  N <- length(X)
+  
+  # Initialise means
+  mu <- rep(mean(X), K)
+  
+  # Initialise variances
+  theta <- rep(var(X)^(1/K), K)
+  
+  # Initialise mixing proportions
+  prop <- rep(1/K, K)
+  
+  # Initialise individual label probabilities and weighted densities
+  g <- matrix(rep(prop, N), nrow=N, ncol=K)
+  
+  # Initialise the difference
+  diff <- Inf
+  
+  # EM Algo
+  while (diff < tol) {
+    
+    # E-step
+    w <- matrix(numeric(N*K), nrow=N, ncol=K)
+    for (k in 1:K) {
+      w[,k] <- prop[k] * dnorm(X, mu[k], sqrt(theta[k]))
+    }
+    for (k in 1:K) {
+      g[,k] <- w[,k]/rowSums(w)
+    }
+    
+    # M-step
+    
+    
+    
+  }
+  
+  
+
+}
 
 
 ```
@@ -20,6 +57,18 @@
 Testing the function:
 
 ```{r}
+
+# Simulate draws from 3 distributions
+set.seed(1234)
+x1 <- rnorm(1000, 0, 1)
+x2 <- rnorm(1500, -4, 2)
+x3 <- rnorm(500, 2, 0.5)
+
+# Combine into single vector
+x <- c(x1, x2, x3)
+
+# Estimate clusters
+plot(density(x))
 
 
 ```
