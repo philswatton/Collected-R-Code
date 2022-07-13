@@ -1,0 +1,25 @@
+# Gaussian Mixture Models
+
+## Univariate Gaussian Mixture Models
+
+<!-- Discussion of the model goes here -->
+
+
+### Implementation
+
+```{r}
+
+# ugmm <- function(X, , ) {
+#   
+#   
+# }
+
+
+```
+
+Testing the function:
+
+```{r}
+
+
+```
