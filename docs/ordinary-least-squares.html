@@ -137,7 +137,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
 <li class="part"><span><b>Statistical Models</b></span></li>
-<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html"><i class="fa fa-check"></i>Ordinary Least Squares</a></li>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html"><i class="fa fa-check"></i>Ordinary Least Squares</a>
+<ul>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#solutions"><i class="fa fa-check"></i>Solutions</a>
+<ul>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#qr-decomposition"><i class="fa fa-check"></i>QR Decomposition</a></li>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#lu-decomposition"><i class="fa fa-check"></i>LU Decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#implementation"><i class="fa fa-check"></i>Implementation</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i>Logit</a></li>
 <li class="chapter" data-level="" data-path="ordered-logit.html"><a href="ordered-logit.html"><i class="fa fa-check"></i>Ordered Logit</a></li>
 <li class="chapter" data-level="" data-path="multinomial-logit.html"><a href="multinomial-logit.html"><i class="fa fa-check"></i>Multinomial Logit</a></li>
@@ -168,29 +176,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ordinary-least-squares" class="section level1 hasAnchor">
 <h1>Ordinary Least Squares<a href="ordinary-least-squares.html#ordinary-least-squares" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<!--Some example R code
-
-- we want to solve something of the form
-$$ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} $$
-
-- OLS is typically learned as
-
-$$ (\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\boldsymbol{Y} $$
+<ul>
+<li>we want to solve something of the form
+<span class="math display">\[ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} \]</span></li>
+</ul>
+<div id="solutions" class="section level2 hasAnchor">
+<h2>Solutions<a href="ordinary-least-squares.html#solutions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>OLS is typically learned as</li>
+</ul>
+<p><span class="math display">\[ (\boldsymbol{X}&#39;\boldsymbol{X})^{-1}\boldsymbol{X}&#39;\boldsymbol{Y} \]</span>
 - but in practice, this is computationally inefficient
 - floating point algebra, matrix inversion, etc etc
-- instead, we use QR decomposition
-
-$$ \boldsymbol{X} = \boldsymbol{QR} $$
-- since R is an upper triangular matrix, we can set
-
-$$ \boldsymbol{Y} = \boldsymbol{QR}\boldsymbol{\beta} $$
-- meaning that:
-
-$$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$
+- instead, we use QR decomposition</p>
+<div id="qr-decomposition" class="section level3 hasAnchor">
+<h3>QR Decomposition<a href="ordinary-least-squares.html#qr-decomposition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[ \boldsymbol{X} = \boldsymbol{QR} \]</span>
+- since R is an upper triangular matrix, we can set</p>
+<p><span class="math display">\[ \boldsymbol{Y} = \boldsymbol{QR}\boldsymbol{\beta} \]</span>
+- meaning that:</p>
+<p><span class="math display">\[ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} \]</span>
 - by definition of the QR decomposition:
-$$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}'\boldsymbol{Y}$$
-- we can therefore exploit the triangular structur of $\boldsymbol{R}$ to backsolve the equation:
-$$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
+<span class="math display">\[ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}&#39;\boldsymbol{Y}\]</span>
+- we can therefore exploit the triangular structur of <span class="math inline">\(\boldsymbol{R}\)</span> to backsolve the equation:
+<span class="math display">\[ \boldsymbol{Q}&#39;\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} \]</span></p>
+</div>
+<div id="lu-decomposition" class="section level3 hasAnchor">
+<h3>LU Decomposition<a href="ordinary-least-squares.html#lu-decomposition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="implementation" class="section level2 hasAnchor">
+<h2>Implementation<a href="ordinary-least-squares.html#implementation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ordinary-least-squares.html#cb1-1" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> <span class="cf">function</span>(data, formula, <span class="at">method=</span><span class="st">&quot;QR&quot;</span>) {</span>
 <span id="cb1-2"><a href="ordinary-least-squares.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-3"><a href="ordinary-least-squares.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  mf <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(formula, data, <span class="at">na.action=</span>na.exclude)</span>
@@ -236,6 +252,7 @@ $$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
 ## X1          1.978201
 ## X2          2.981712</code></pre>
 
+</div>
 </div>
             </section>
 
@@ -291,12 +308,26 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
