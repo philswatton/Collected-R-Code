@@ -2,10 +2,10 @@
 
 # Ordinary Least Squares
 
-<!--Some example R code
-
 - we want to solve something of the form
 $$ \boldsymbol{Y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon} $$
+
+## Solutions
 
 - OLS is typically learned as
 
@@ -13,6 +13,8 @@ $$ (\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\boldsymbol{Y} $$
 - but in practice, this is computationally inefficient
 - floating point algebra, matrix inversion, etc etc
 - instead, we use QR decomposition
+
+### QR Decomposition
 
 $$ \boldsymbol{X} = \boldsymbol{QR} $$
 - since R is an upper triangular matrix, we can set
@@ -24,7 +26,15 @@ $$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$
 - by definition of the QR decomposition:
 $$ \boldsymbol{Q}^{-1}\boldsymbol{Y} = \boldsymbol{Q}'\boldsymbol{Y}$$
 - we can therefore exploit the triangular structur of $\boldsymbol{R}$ to backsolve the equation:
-$$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$ -->
+$$ \boldsymbol{Q}'\boldsymbol{Y} = \boldsymbol{R}\boldsymbol{\beta} $$
+
+### LU Decomposition
+
+$$ \left(\boldsymbol{X}'\boldsymbol{X}\right)\boldsymbol{b} = \boldsymbol{X}'\boldsymbol{y} $$
+
+
+
+## Implementation
 
 
 ```{r}

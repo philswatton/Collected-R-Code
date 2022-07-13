@@ -137,7 +137,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
 <li class="part"><span><b>Statistical Models</b></span></li>
-<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html"><i class="fa fa-check"></i>Ordinary Least Squares</a></li>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html"><i class="fa fa-check"></i>Ordinary Least Squares</a>
+<ul>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#solutions"><i class="fa fa-check"></i>Solutions</a>
+<ul>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#qr-decomposition"><i class="fa fa-check"></i>QR Decomposition</a></li>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#lu-decomposition"><i class="fa fa-check"></i>LU Decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ordinary-least-squares.html"><a href="ordinary-least-squares.html#implementation"><i class="fa fa-check"></i>Implementation</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i>Logit</a></li>
 <li class="chapter" data-level="" data-path="ordered-logit.html"><a href="ordered-logit.html"><i class="fa fa-check"></i>Ordered Logit</a></li>
 <li class="chapter" data-level="" data-path="multinomial-logit.html"><a href="multinomial-logit.html"><i class="fa fa-check"></i>Multinomial Logit</a></li>
@@ -298,12 +306,26 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

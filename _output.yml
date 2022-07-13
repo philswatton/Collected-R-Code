@@ -7,6 +7,7 @@ bookdown::gitbook:
         <li><a href="https://philswatton.github.io/">Home</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+      collapse: section
     edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
     download: ["pdf", "epub"]
 
