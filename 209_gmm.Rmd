@@ -16,18 +16,23 @@ ugmm <- function(X, K, tol) {
   
   # Initialise by randomly assigning to clusters
   c <- sample(1:K, N, replace=T)
-  # mu <- numeric()
-  # theta <- numeric()
-  # prop <- numeric()
+  mu <- numeric()
+  theta <- numeric()
+  prop <- numeric()
+  for (k in 1:K) {
+    mu <- c(mu, mean(X[c == k]))
+    theta <- c(theta, var(X[c == k]))
+    prop <- c(prop, length((X[c == k]))/length(X))
+  }
   
   # # Initialise means
-  mu <- sample(X, K)
-
-  # Initialise variances
-  theta <- runif(K, min=1, max=var(X))#rep(var(X)^(1/K), K)
-
-  # Initialise mixing proportions
-  prop <- rep(1/K, K)
+  # mu <- sample(X, K)
+  # 
+  # # Initialise variances
+  # theta <- runif(K, min=1, max=var(X))#rep(var(X)^(1/K), K)
+  # 
+  # # Initialise mixing proportions
+  # prop <- rep(1/K, K)
 
   # Initialise individual label probabilities and weighted densities
   g <- matrix(0, nrow=N, ncol=K)
@@ -61,7 +66,7 @@ ugmm <- function(X, K, tol) {
     
     # M-step
     Nk <- rowSums(g)
-    for (k in 1:k) {
+    for (k in 1:K) {
       
       # Calculate mu_k
       mu[k] <- (1/Nk[k]) * sum(g[,k] * x)
@@ -75,14 +80,14 @@ ugmm <- function(X, K, tol) {
     }
     
     # Calculate log-likelihood
-    lli <- numeric(N)
-    for (k in 1:K) {
-      lli <- lli + g[,k] * (log(prop[k]) + log(dnorm(X, mu[k], sqrt(theta[k]))))
-    }
-    ll <- sum(lli)
+    # lli <- numeric(N)
+    # for (k in 1:K) {
+    #   lli <- lli + g[,k] * (log(prop[k]) + log(dnorm(X, mu[k], sqrt(theta[k]))))
+    # }
+    # ll <- sum(lli)
     
     # Recalulate difference
-    diff <- abs(ll - old)
+    # diff <- abs(ll - old)
     # print(apply(g, 2, mean))
     print(mu)
     # print(theta)
@@ -90,11 +95,11 @@ ugmm <- function(X, K, tol) {
     # print(paste0("diff: ", diff))
     
     # Check
-    if (diff < tol) break
-    # if (max(abs(rbind(oldmu, oldtheta, oldprop) - rbind(mu, theta, prop))) < tol) break
+    # if (diff < tol) break
+    if (max(abs(rbind(oldmu, oldtheta, oldprop) - rbind(mu, theta, prop))) < tol) break
     
     # Assume the loop hasn't ended, update the old ll
-    old <- ll
+    # old <- ll
     
   }
   
