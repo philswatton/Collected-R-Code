@@ -28,9 +28,17 @@ ugmm <- function(X, K, tol) {
   
   # Initialise the difference
   diff <- Inf
+  old <- 0
+  
+  # Counter
+  i <- 0
   
   # EM Algo
-  while (diff < tol) {
+  while (TRUE) {
+    
+    # Update count
+    i <- i + 1
+    print(i)
     
     # E-step
     w <- matrix(numeric(N*K), nrow=N, ncol=K)
@@ -42,12 +50,40 @@ ugmm <- function(X, K, tol) {
     }
     
     # M-step
+    for (k in 1:k) {
+      # Calulcate Nk (reused across equations)
+      Nk <- sum(g[,k])
+      
+      # Calculate mu_k
+      mu[k] <- (1/Nk) * sum(g[,k] * x)
+      
+      # Calculate theta^2_k
+      theta[k] <- (1/Nk)*sum(g[,k]*(x - mu[k])^2)
+      
+      # Update mixing proportions
+      prop[k] <- Nk/N
+    }
     
+    # Calculate log-likelihood
+    lli <- numeric(N)
+    for (k in 1:K) {
+      lli <- lli + g[,k] * (log(prop[k]) + log(dnorm(X, mu[k], sqrt(theta[k]))))
+    }
+    ll <- sum(lli)
     
+    # Recalulate difference
+    diff <- abs(ll - old)
+    print(paste0("diff: ", diff))
+    
+    # Check
+    if (diff < tol) break
+    
+    # Assume the loop hasn't ended, update the old ll
+    old <- ll
     
   }
   
-  
+  return(list(mu=mu, theta=sqrt(theta), prop=prop))
 
 }
 
@@ -67,8 +103,10 @@ x3 <- rnorm(500, 2, 0.5)
 # Combine into single vector
 x <- c(x1, x2, x3)
 
-# Estimate clusters
+# Density Plot
 plot(density(x))
 
+# Estimate clusters
+ugmm(x, 3, 0.0001)
 
 ```
