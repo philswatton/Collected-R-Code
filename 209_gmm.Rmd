@@ -14,17 +14,23 @@ ugmm <- function(X, K, tol) {
   # Basics of X
   N <- length(X)
   
-  # Initialise means
-  mu <- rep(mean(X), K)
+  # Initialise by randomly assigning to clusters
+  c <- sample(1:K, N, replace=T)
+  # mu <- numeric()
+  # theta <- numeric()
+  # prop <- numeric()
   
+  # # Initialise means
+  mu <- sample(X, K)
+
   # Initialise variances
-  theta <- rep(var(X)^(1/K), K)
-  
+  theta <- runif(K, min=1, max=var(X))#rep(var(X)^(1/K), K)
+
   # Initialise mixing proportions
   prop <- rep(1/K, K)
-  
+
   # Initialise individual label probabilities and weighted densities
-  g <- matrix(rep(prop, N), nrow=N, ncol=K)
+  g <- matrix(0, nrow=N, ncol=K)
   
   # Initialise the difference
   diff <- Inf
@@ -38,30 +44,34 @@ ugmm <- function(X, K, tol) {
     
     # Update count
     i <- i + 1
-    print(i)
+    # print(i)
+    
+    # Old values
+    oldmu <- mu
+    oldtheta <- theta
+    oldprop <- prop
     
     # E-step
     w <- matrix(numeric(N*K), nrow=N, ncol=K)
     for (k in 1:K) {
-      w[,k] <- prop[k] * dnorm(X, mu[k], sqrt(theta[k]))
+      g[,k] <- prop[k] * dnorm(X, mu[k], sqrt(theta[k]))
     }
-    for (k in 1:K) {
-      g[,k] <- w[,k]/rowSums(w)
-    }
+    g <- g / rowSums(g)
+    
     
     # M-step
+    Nk <- rowSums(g)
     for (k in 1:k) {
-      # Calulcate Nk (reused across equations)
-      Nk <- sum(g[,k])
       
       # Calculate mu_k
-      mu[k] <- (1/Nk) * sum(g[,k] * x)
+      mu[k] <- (1/Nk[k]) * sum(g[,k] * x)
       
       # Calculate theta^2_k
-      theta[k] <- (1/Nk)*sum(g[,k]*(x - mu[k])^2)
+      theta[k] <- (1/Nk[k])*sum(g[,k]*(x - mu[k])^2)
       
       # Update mixing proportions
-      prop[k] <- Nk/N
+      prop[k] <- Nk[k]/N
+      
     }
     
     # Calculate log-likelihood
@@ -73,10 +83,15 @@ ugmm <- function(X, K, tol) {
     
     # Recalulate difference
     diff <- abs(ll - old)
-    print(paste0("diff: ", diff))
+    # print(apply(g, 2, mean))
+    print(mu)
+    # print(theta)
+    # print(paste0("LL: ", ll))
+    # print(paste0("diff: ", diff))
     
     # Check
     if (diff < tol) break
+    # if (max(abs(rbind(oldmu, oldtheta, oldprop) - rbind(mu, theta, prop))) < tol) break
     
     # Assume the loop hasn't ended, update the old ll
     old <- ll
