@@ -15,24 +15,24 @@ ugmm <- function(X, K, tol) {
   N <- length(X)
   
   # Initialise by randomly assigning to clusters
-  c <- sample(1:K, N, replace=T)
-  mu <- numeric()
-  theta <- numeric()
-  prop <- numeric()
-  for (k in 1:K) {
-    mu <- c(mu, mean(X[c == k]))
-    theta <- c(theta, var(X[c == k]))
-    prop <- c(prop, length((X[c == k]))/length(X))
-  }
+  # c <- sample(1:K, N, replace=T)
+  # mu <- numeric()
+  # theta <- numeric()
+  # prop <- numeric()
+  # for (k in 1:K) {
+  #   mu <- c(mu, mean(X[c == k]))
+  #   theta <- c(theta, var(X[c == k]))
+  #   prop <- c(prop, length((X[c == k]))/length(X))
+  # }
   
   # # Initialise means
-  # mu <- sample(X, K)
-  # 
-  # # Initialise variances
-  # theta <- runif(K, min=1, max=var(X))#rep(var(X)^(1/K), K)
-  # 
-  # # Initialise mixing proportions
-  # prop <- rep(1/K, K)
+  mu <- sample(X, K)
+
+  # Initialise variances
+  theta <- rep(var(X), K)
+
+  # Initialise mixing proportions
+  prop <- rep(1/K, K)
 
   # Initialise individual label probabilities and weighted densities
   g <- matrix(0, nrow=N, ncol=K)
