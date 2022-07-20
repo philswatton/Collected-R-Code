@@ -57,7 +57,6 @@ ugmm <- function(X, K, tol) {
     oldprop <- prop
     
     # E-step
-    w <- matrix(numeric(N*K), nrow=N, ncol=K)
     for (k in 1:K) {
       g[,k] <- prop[k] * dnorm(X, mu[k], sqrt(theta[k]))
     }
@@ -65,14 +64,14 @@ ugmm <- function(X, K, tol) {
     
     
     # M-step
-    Nk <- rowSums(g)
+    Nk <- colSums(g)
     for (k in 1:K) {
       
       # Calculate mu_k
-      mu[k] <- (1/Nk[k]) * sum(g[,k] * x)
+      mu[k] <- sum(g[,k] * X) / Nk[k]
       
       # Calculate theta^2_k
-      theta[k] <- (1/Nk[k])*sum(g[,k]*(x - mu[k])^2)
+      theta[k] <- sum(g[,k]*(X - mu[k])^2) / Nk[k]
       
       # Update mixing proportions
       prop[k] <- Nk[k]/N
