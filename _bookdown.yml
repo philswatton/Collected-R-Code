@@ -22,13 +22,14 @@ rmd_files: [
 
   # Data Reduction
   201_pca.Rmd,
-  # EFA
-  # CFA/SEM
-  # IRT
-  # kmeans clustering
-  # Latent class
-  # Latent profile
-  208_gmm.Rmd,
+  # 2 EFA
+  # 3 CFA/SEM
+  # 4 IRT
+  # 5 kmeans clustering
+  # 6 Agglom hierarchical clustering
+  # 7 Latent class
+  # 8 Latent profile
+  209_gmm.Rmd,
 
   # Machine Learning
   301_lasso.rmd,

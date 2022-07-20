@@ -9,23 +9,12 @@
 
 ```{r}
 
-ugmm <- function(X, K, tol) {
+ugmm <- function(X, K, tol=0.0001, maxit=1000) {
   
   # Basics of X
   N <- length(X)
   
-  # Initialise by randomly assigning to clusters
-  # c <- sample(1:K, N, replace=T)
-  # mu <- numeric()
-  # theta <- numeric()
-  # prop <- numeric()
-  # for (k in 1:K) {
-  #   mu <- c(mu, mean(X[c == k]))
-  #   theta <- c(theta, var(X[c == k]))
-  #   prop <- c(prop, length((X[c == k]))/length(X))
-  # }
-  
-  # # Initialise means
+  # Initialise means
   mu <- sample(X, K)
 
   # Initialise variances
@@ -41,15 +30,11 @@ ugmm <- function(X, K, tol) {
   diff <- Inf
   old <- 0
   
-  # Counter
-  i <- 0
+  # Initialise iterations
+  it <- 0
   
   # EM Algo
-  while (TRUE) {
-    
-    # Update count
-    i <- i + 1
-    # print(i)
+  while (it < maxit) {
     
     # Old values
     oldmu <- mu
@@ -79,30 +64,27 @@ ugmm <- function(X, K, tol) {
     }
     
     # Calculate log-likelihood
-    # lli <- numeric(N)
-    # for (k in 1:K) {
-    #   lli <- lli + g[,k] * (log(prop[k]) + log(dnorm(X, mu[k], sqrt(theta[k]))))
-    # }
-    # ll <- sum(lli)
+    lli <- numeric(N)
+    for (k in 1:K) {
+      lli <- lli + g[,k] * (log(prop[k]) + log(dnorm(X, mu[k], sqrt(theta[k]))))
+    }
+    ll <- sum(lli)
     
     # Recalulate difference
-    # diff <- abs(ll - old)
-    # print(apply(g, 2, mean))
-    print(mu)
-    # print(theta)
-    # print(paste0("LL: ", ll))
-    # print(paste0("diff: ", diff))
+    diff <- abs(ll - old)
+    
+    # Update iterations
+    it <- it+1
     
     # Check
-    # if (diff < tol) break
-    if (max(abs(rbind(oldmu, oldtheta, oldprop) - rbind(mu, theta, prop))) < tol) break
+    if (diff < tol) break
     
     # Assume the loop hasn't ended, update the old ll
-    # old <- ll
+    old <- ll
     
   }
   
-  return(list(mu=mu, theta=sqrt(theta), prop=prop))
+  return(list(it=it, mu=mu, theta=sqrt(theta), prop=prop))
 
 }
 
@@ -126,6 +108,6 @@ x <- c(x1, x2, x3)
 plot(density(x))
 
 # Estimate clusters
-ugmm(x, 3, 0.0001)
+ugmm(x, 3)
 
 ```
