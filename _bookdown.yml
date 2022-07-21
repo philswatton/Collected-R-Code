@@ -8,17 +8,18 @@ rmd_files: [
   index.Rmd,
 
   # Optimization
-  # general intro?
-  # Gradient Descent
-  # Coordinate Descent
-  # BFGS
-  # EM
+  # 1 general intro (?)
+  # 2 Gradient Descent
+  # 3 Coordinate Descent
+  # 4 BFGS
+  # 5 EM
 
   # Statistical Models
   101_ols.Rmd,
   102_logit.Rmd,
   103_ologit.Rmd,
   104_mnlogit.Rmd,
+  # 5 clogit
 
   # Data Reduction
   201_pca.Rmd,
@@ -32,6 +33,10 @@ rmd_files: [
   209_gmm.Rmd,
 
   # Machine Learning
+  # 1 Naive Bayes
   301_lasso.rmd,
   302_ridge.rmd
+  # 4 Regression Tree/Random Forest
+  # 5 SVM
+  # 6 NN
 ]
