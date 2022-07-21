@@ -1,0 +1,81 @@
+# K-Means Clustering
+
+<!-- Discussion of the model goes here -->
+
+
+## Implementation
+```{r}
+
+kmeans <- function(X, K, tol=0.0001, maxit=1000) {
+  
+  # X dimensions
+  N <- nrow(X)
+  J <- ncol(X)
+  
+  # Initialise centroids
+  M <- matrix(0, nrow=K, ncol=J) #centroids on rows, variables on columns
+  for (j in 1:J) {
+    M[,j] <- runif(K, min=min(X[,j]), max=max(X[,j]))
+  }
+  
+  # Vector of memberships
+  s <- numeric(N)
+  
+  # Distances to each centroid
+  d <- matrix(0, nrow=N, ncol=K)
+  
+  # Loop
+  diff <- Inf
+  it <- 0
+  while (diff > tol & it < maxit) {
+    
+    # Membership step
+    for (k in 1:K) {
+      d[,k] <- sqrt(rowSums(t(t(X) - M[k,])^2))
+    }
+    s <- apply(d, 1, which.min)
+    
+    # Centroid mean step
+    old <- M
+    for (k in 1:K) {
+      M[k,] <- apply(X[s == k], 2, mean)
+    }
+    
+    # Checks
+    it <- it + 1
+    diff <- max(abs(M - old)) < tol
+    
+  }
+  
+  # Output
+  return(list(iterations = it,
+              centroids = M,
+              clusters = s))
+  
+}
+
+
+
+```
+
+
+Testing the function:
+
+```{r}
+
+# Simulate draws from 3 distributions
+set.seed(1234)
+n <- 500
+x1 <- c(runif(n, -2, 0), runif(n, 0, 2))
+x2 <- c(runif(n, -2, 0), runif(n, 0, 2))
+
+# Combine into matrix
+m <- matrix(c(x1, x2), nrow=n*2, ncol=2)
+
+# Plot
+plot(m)
+
+# Estimate clusters
+kmeans(m, 2)
+
+```
