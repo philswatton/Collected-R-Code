@@ -151,11 +151,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="multinomial-logit.html"><a href="multinomial-logit.html"><i class="fa fa-check"></i>Multinomial Logit</a></li>
 <li class="part"><span><b>Data Reduction</b></span></li>
 <li class="chapter" data-level="" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html"><i class="fa fa-check"></i>Principal Component Analysis</a></li>
+<li class="chapter" data-level="" data-path="k-means-clustering.html"><a href="k-means-clustering.html"><i class="fa fa-check"></i>K-Means Clustering</a>
+<ul>
+<li class="chapter" data-level="" data-path="k-means-clustering.html"><a href="k-means-clustering.html#implementation-1"><i class="fa fa-check"></i>Implementation</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="gaussian-mixture-models.html"><a href="gaussian-mixture-models.html"><i class="fa fa-check"></i>Gaussian Mixture Models</a>
 <ul>
 <li class="chapter" data-level="" data-path="gaussian-mixture-models.html"><a href="gaussian-mixture-models.html#univariate-gaussian-mixture-models"><i class="fa fa-check"></i>Univariate Gaussian Mixture Models</a>
 <ul>
-<li class="chapter" data-level="" data-path="gaussian-mixture-models.html"><a href="gaussian-mixture-models.html#implementation-1"><i class="fa fa-check"></i>Implementation</a></li>
+<li class="chapter" data-level="" data-path="gaussian-mixture-models.html"><a href="gaussian-mixture-models.html#implementation-2"><i class="fa fa-check"></i>Implementation</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>Machine Learning</b></span></li>
@@ -184,71 +188,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="lasso-regression---l1-regularization" class="section level1 hasAnchor">
 <h1>LASSO Regression - L1 Regularization<a href="lasso-regression---l1-regularization.html#lasso-regression---l1-regularization" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <!-- Discussion of the model goes here -->
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="lasso-regression---l1-regularization.html#cb45-1" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="cf">function</span>(X, Y, <span class="at">rm_na=</span>T, <span class="at">standardise=</span>F, lambda, <span class="at">tol=</span><span class="fl">1e-6</span>, <span class="at">max_iter=</span><span class="fl">1e+5</span>) {</span>
-<span id="cb45-2"><a href="lasso-regression---l1-regularization.html#cb45-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-3"><a href="lasso-regression---l1-regularization.html#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) {</span>
-<span id="cb45-4"><a href="lasso-regression---l1-regularization.html#cb45-4" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
-<span id="cb45-5"><a href="lasso-regression---l1-regularization.html#cb45-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-6"><a href="lasso-regression---l1-regularization.html#cb45-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-7"><a href="lasso-regression---l1-regularization.html#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (rm_na) {</span>
-<span id="cb45-8"><a href="lasso-regression---l1-regularization.html#cb45-8" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(X) <span class="sc">&amp;</span> <span class="fu">complete.cases</span>(Y)</span>
-<span id="cb45-9"><a href="lasso-regression---l1-regularization.html#cb45-9" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> X[index,]</span>
-<span id="cb45-10"><a href="lasso-regression---l1-regularization.html#cb45-10" aria-hidden="true" tabindex="-1"></a>    Y <span class="ot">&lt;-</span> Y[index]</span>
-<span id="cb45-11"><a href="lasso-regression---l1-regularization.html#cb45-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-12"><a href="lasso-regression---l1-regularization.html#cb45-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-13"><a href="lasso-regression---l1-regularization.html#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (standardise) {</span>
-<span id="cb45-14"><a href="lasso-regression---l1-regularization.html#cb45-14" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sd</span>(x))</span>
-<span id="cb45-15"><a href="lasso-regression---l1-regularization.html#cb45-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-16"><a href="lasso-regression---l1-regularization.html#cb45-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-17"><a href="lasso-regression---l1-regularization.html#cb45-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if (intercept) {</span></span>
-<span id="cb45-18"><a href="lasso-regression---l1-regularization.html#cb45-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   X &lt;- cbind(rep(1,nrow(X)), X)</span></span>
-<span id="cb45-19"><a href="lasso-regression---l1-regularization.html#cb45-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   colnames(X)[1] &lt;- &quot;(Intercept)&quot;</span></span>
-<span id="cb45-20"><a href="lasso-regression---l1-regularization.html#cb45-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># }</span></span>
-<span id="cb45-21"><a href="lasso-regression---l1-regularization.html#cb45-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-22"><a href="lasso-regression---l1-regularization.html#cb45-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># optim&#39;s methods won&#39;t produce variable selection - see https://stats.stackexchange.com/questions/121209/how-can-i-implement-lasso-in-r-using-optim-function</span></span>
-<span id="cb45-23"><a href="lasso-regression---l1-regularization.html#cb45-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># so estimate via coordinate descent</span></span>
-<span id="cb45-24"><a href="lasso-regression---l1-regularization.html#cb45-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-25"><a href="lasso-regression---l1-regularization.html#cb45-25" aria-hidden="true" tabindex="-1"></a>  K <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
-<span id="cb45-26"><a href="lasso-regression---l1-regularization.html#cb45-26" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(X))</span>
-<span id="cb45-27"><a href="lasso-regression---l1-regularization.html#cb45-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># b &lt;- solve(crossprod(X) + lambda*diag(K)) %*% crossprod(X, Y)</span></span>
-<span id="cb45-28"><a href="lasso-regression---l1-regularization.html#cb45-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(b) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)</span>
-<span id="cb45-29"><a href="lasso-regression---l1-regularization.html#cb45-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-30"><a href="lasso-regression---l1-regularization.html#cb45-30" aria-hidden="true" tabindex="-1"></a>  soft_thresh <span class="ot">&lt;-</span> <span class="cf">function</span>(b, l) {</span>
-<span id="cb45-31"><a href="lasso-regression---l1-regularization.html#cb45-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-32"><a href="lasso-regression---l1-regularization.html#cb45-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(l <span class="sc">&lt;</span> <span class="fu">abs</span>(b), <span class="fu">sign</span>(b)<span class="sc">*</span>(<span class="fu">abs</span>(b) <span class="sc">-</span> l), <span class="dv">0</span>)</span>
-<span id="cb45-33"><a href="lasso-regression---l1-regularization.html#cb45-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-34"><a href="lasso-regression---l1-regularization.html#cb45-34" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-35"><a href="lasso-regression---l1-regularization.html#cb45-35" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-36"><a href="lasso-regression---l1-regularization.html#cb45-36" aria-hidden="true" tabindex="-1"></a>  current <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb45-37"><a href="lasso-regression---l1-regularization.html#cb45-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
-<span id="cb45-38"><a href="lasso-regression---l1-regularization.html#cb45-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-39"><a href="lasso-regression---l1-regularization.html#cb45-39" aria-hidden="true" tabindex="-1"></a>    b_old <span class="ot">&lt;-</span> b</span>
-<span id="cb45-40"><a href="lasso-regression---l1-regularization.html#cb45-40" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-41"><a href="lasso-regression---l1-regularization.html#cb45-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K) {</span>
-<span id="cb45-42"><a href="lasso-regression---l1-regularization.html#cb45-42" aria-hidden="true" tabindex="-1"></a>      r <span class="ot">&lt;-</span> Y <span class="sc">-</span> X[,<span class="sc">-</span>k] <span class="sc">%*%</span> b[<span class="sc">-</span>k]</span>
-<span id="cb45-43"><a href="lasso-regression---l1-regularization.html#cb45-43" aria-hidden="true" tabindex="-1"></a>      b[k] <span class="ot">&lt;-</span> <span class="fu">soft_thresh</span>(<span class="fu">crossprod</span>(X[,k],r), <span class="fu">length</span>(Y)<span class="sc">*</span>lambda)<span class="sc">/</span><span class="fu">crossprod</span>(X[,k]) <span class="co">#length(y) gives consistent results w/ glmnet</span></span>
-<span id="cb45-44"><a href="lasso-regression---l1-regularization.html#cb45-44" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb45-45"><a href="lasso-regression---l1-regularization.html#cb45-45" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-46"><a href="lasso-regression---l1-regularization.html#cb45-46" aria-hidden="true" tabindex="-1"></a>    current <span class="ot">&lt;-</span> <span class="fu">norm</span>(<span class="fu">as.matrix</span>(b<span class="sc">-</span>b_old), <span class="st">&quot;F&quot;</span>)</span>
-<span id="cb45-47"><a href="lasso-regression---l1-regularization.html#cb45-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">which.min</span>(<span class="fu">c</span>(tol,current))<span class="sc">==</span><span class="dv">2</span>) <span class="cf">break</span></span>
-<span id="cb45-48"><a href="lasso-regression---l1-regularization.html#cb45-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(b)) <span class="sc">|</span> <span class="fu">any</span>(<span class="fu">is.nan</span>(b))) <span class="cf">break</span> </span>
-<span id="cb45-49"><a href="lasso-regression---l1-regularization.html#cb45-49" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-50"><a href="lasso-regression---l1-regularization.html#cb45-50" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-51"><a href="lasso-regression---l1-regularization.html#cb45-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-52"><a href="lasso-regression---l1-regularization.html#cb45-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(b)</span>
-<span id="cb45-53"><a href="lasso-regression---l1-regularization.html#cb45-53" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-54"><a href="lasso-regression---l1-regularization.html#cb45-54" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="lasso-regression---l1-regularization.html#cb47-1" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="cf">function</span>(X, Y, <span class="at">rm_na=</span>T, <span class="at">standardise=</span>F, lambda, <span class="at">tol=</span><span class="fl">1e-6</span>, <span class="at">max_iter=</span><span class="fl">1e+5</span>) {</span>
+<span id="cb47-2"><a href="lasso-regression---l1-regularization.html#cb47-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-3"><a href="lasso-regression---l1-regularization.html#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) {</span>
+<span id="cb47-4"><a href="lasso-regression---l1-regularization.html#cb47-4" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
+<span id="cb47-5"><a href="lasso-regression---l1-regularization.html#cb47-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-6"><a href="lasso-regression---l1-regularization.html#cb47-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-7"><a href="lasso-regression---l1-regularization.html#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (rm_na) {</span>
+<span id="cb47-8"><a href="lasso-regression---l1-regularization.html#cb47-8" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(X) <span class="sc">&amp;</span> <span class="fu">complete.cases</span>(Y)</span>
+<span id="cb47-9"><a href="lasso-regression---l1-regularization.html#cb47-9" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> X[index,]</span>
+<span id="cb47-10"><a href="lasso-regression---l1-regularization.html#cb47-10" aria-hidden="true" tabindex="-1"></a>    Y <span class="ot">&lt;-</span> Y[index]</span>
+<span id="cb47-11"><a href="lasso-regression---l1-regularization.html#cb47-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-12"><a href="lasso-regression---l1-regularization.html#cb47-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-13"><a href="lasso-regression---l1-regularization.html#cb47-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (standardise) {</span>
+<span id="cb47-14"><a href="lasso-regression---l1-regularization.html#cb47-14" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sd</span>(x))</span>
+<span id="cb47-15"><a href="lasso-regression---l1-regularization.html#cb47-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-16"><a href="lasso-regression---l1-regularization.html#cb47-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-17"><a href="lasso-regression---l1-regularization.html#cb47-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if (intercept) {</span></span>
+<span id="cb47-18"><a href="lasso-regression---l1-regularization.html#cb47-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   X &lt;- cbind(rep(1,nrow(X)), X)</span></span>
+<span id="cb47-19"><a href="lasso-regression---l1-regularization.html#cb47-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   colnames(X)[1] &lt;- &quot;(Intercept)&quot;</span></span>
+<span id="cb47-20"><a href="lasso-regression---l1-regularization.html#cb47-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># }</span></span>
+<span id="cb47-21"><a href="lasso-regression---l1-regularization.html#cb47-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-22"><a href="lasso-regression---l1-regularization.html#cb47-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># optim&#39;s methods won&#39;t produce variable selection - see https://stats.stackexchange.com/questions/121209/how-can-i-implement-lasso-in-r-using-optim-function</span></span>
+<span id="cb47-23"><a href="lasso-regression---l1-regularization.html#cb47-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># so estimate via coordinate descent</span></span>
+<span id="cb47-24"><a href="lasso-regression---l1-regularization.html#cb47-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-25"><a href="lasso-regression---l1-regularization.html#cb47-25" aria-hidden="true" tabindex="-1"></a>  K <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb47-26"><a href="lasso-regression---l1-regularization.html#cb47-26" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(X))</span>
+<span id="cb47-27"><a href="lasso-regression---l1-regularization.html#cb47-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># b &lt;- solve(crossprod(X) + lambda*diag(K)) %*% crossprod(X, Y)</span></span>
+<span id="cb47-28"><a href="lasso-regression---l1-regularization.html#cb47-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(b) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)</span>
+<span id="cb47-29"><a href="lasso-regression---l1-regularization.html#cb47-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-30"><a href="lasso-regression---l1-regularization.html#cb47-30" aria-hidden="true" tabindex="-1"></a>  soft_thresh <span class="ot">&lt;-</span> <span class="cf">function</span>(b, l) {</span>
+<span id="cb47-31"><a href="lasso-regression---l1-regularization.html#cb47-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-32"><a href="lasso-regression---l1-regularization.html#cb47-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(l <span class="sc">&lt;</span> <span class="fu">abs</span>(b), <span class="fu">sign</span>(b)<span class="sc">*</span>(<span class="fu">abs</span>(b) <span class="sc">-</span> l), <span class="dv">0</span>)</span>
+<span id="cb47-33"><a href="lasso-regression---l1-regularization.html#cb47-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-34"><a href="lasso-regression---l1-regularization.html#cb47-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-35"><a href="lasso-regression---l1-regularization.html#cb47-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-36"><a href="lasso-regression---l1-regularization.html#cb47-36" aria-hidden="true" tabindex="-1"></a>  current <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb47-37"><a href="lasso-regression---l1-regularization.html#cb47-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>max_iter) {</span>
+<span id="cb47-38"><a href="lasso-regression---l1-regularization.html#cb47-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-39"><a href="lasso-regression---l1-regularization.html#cb47-39" aria-hidden="true" tabindex="-1"></a>    b_old <span class="ot">&lt;-</span> b</span>
+<span id="cb47-40"><a href="lasso-regression---l1-regularization.html#cb47-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-41"><a href="lasso-regression---l1-regularization.html#cb47-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K) {</span>
+<span id="cb47-42"><a href="lasso-regression---l1-regularization.html#cb47-42" aria-hidden="true" tabindex="-1"></a>      r <span class="ot">&lt;-</span> Y <span class="sc">-</span> X[,<span class="sc">-</span>k] <span class="sc">%*%</span> b[<span class="sc">-</span>k]</span>
+<span id="cb47-43"><a href="lasso-regression---l1-regularization.html#cb47-43" aria-hidden="true" tabindex="-1"></a>      b[k] <span class="ot">&lt;-</span> <span class="fu">soft_thresh</span>(<span class="fu">crossprod</span>(X[,k],r), <span class="fu">length</span>(Y)<span class="sc">*</span>lambda)<span class="sc">/</span><span class="fu">crossprod</span>(X[,k]) <span class="co">#length(y) gives consistent results w/ glmnet</span></span>
+<span id="cb47-44"><a href="lasso-regression---l1-regularization.html#cb47-44" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-45"><a href="lasso-regression---l1-regularization.html#cb47-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-46"><a href="lasso-regression---l1-regularization.html#cb47-46" aria-hidden="true" tabindex="-1"></a>    current <span class="ot">&lt;-</span> <span class="fu">norm</span>(<span class="fu">as.matrix</span>(b<span class="sc">-</span>b_old), <span class="st">&quot;F&quot;</span>)</span>
+<span id="cb47-47"><a href="lasso-regression---l1-regularization.html#cb47-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">which.min</span>(<span class="fu">c</span>(tol,current))<span class="sc">==</span><span class="dv">2</span>) <span class="cf">break</span></span>
+<span id="cb47-48"><a href="lasso-regression---l1-regularization.html#cb47-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(b)) <span class="sc">|</span> <span class="fu">any</span>(<span class="fu">is.nan</span>(b))) <span class="cf">break</span> </span>
+<span id="cb47-49"><a href="lasso-regression---l1-regularization.html#cb47-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-50"><a href="lasso-regression---l1-regularization.html#cb47-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-51"><a href="lasso-regression---l1-regularization.html#cb47-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-52"><a href="lasso-regression---l1-regularization.html#cb47-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(b)</span>
+<span id="cb47-53"><a href="lasso-regression---l1-regularization.html#cb47-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-54"><a href="lasso-regression---l1-regularization.html#cb47-54" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Testing the function:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="lasso-regression---l1-regularization.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="lasso-regression---l1-regularization.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
 <pre><code>## Loaded glmnet 4.1-4</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="lasso-regression---l1-regularization.html#cb48-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mtcars[, <span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb48-2"><a href="lasso-regression---l1-regularization.html#cb48-2" aria-hidden="true" tabindex="-1"></a>X_standard <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(x) (x<span class="sc">-</span><span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
-<span id="cb48-3"><a href="lasso-regression---l1-regularization.html#cb48-3" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> mtcars[[<span class="dv">1</span>]]</span>
-<span id="cb48-4"><a href="lasso-regression---l1-regularization.html#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-5"><a href="lasso-regression---l1-regularization.html#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb48-6"><a href="lasso-regression---l1-regularization.html#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
-<span id="cb48-7"><a href="lasso-regression---l1-regularization.html#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lasso =</span> <span class="fu">lasso</span>(X, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
-<span id="cb48-8"><a href="lasso-regression---l1-regularization.html#cb48-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="lasso-regression---l1-regularization.html#cb50-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mtcars[, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb50-2"><a href="lasso-regression---l1-regularization.html#cb50-2" aria-hidden="true" tabindex="-1"></a>X_standard <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(x) (x<span class="sc">-</span><span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb50-3"><a href="lasso-regression---l1-regularization.html#cb50-3" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> mtcars[[<span class="dv">1</span>]]</span>
+<span id="cb50-4"><a href="lasso-regression---l1-regularization.html#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="lasso-regression---l1-regularization.html#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb50-6"><a href="lasso-regression---l1-regularization.html#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
+<span id="cb50-7"><a href="lasso-regression---l1-regularization.html#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lasso =</span> <span class="fu">lasso</span>(X, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
+<span id="cb50-8"><a href="lasso-regression---l1-regularization.html#cb50-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>##           glmnet        lasso
 ## cyl   0.00000000  0.000000000
 ## disp -0.01476942 -0.012342881
@@ -260,10 +264,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## am    0.00000000  0.000000000
 ## gear  1.73327735  1.637404538
 ## carb -0.44294482 -0.340473978</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="lasso-regression---l1-regularization.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb50-2"><a href="lasso-regression---l1-regularization.html#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X_standard, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
-<span id="cb50-3"><a href="lasso-regression---l1-regularization.html#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">lasso =</span> <span class="fu">lasso</span>(X_standard, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
-<span id="cb50-4"><a href="lasso-regression---l1-regularization.html#cb50-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="lasso-regression---l1-regularization.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb52-2"><a href="lasso-regression---l1-regularization.html#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">glmnet =</span> <span class="fu">glmnet</span>(X_standard, Y, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda=</span><span class="fl">0.5</span>, <span class="at">intercept =</span> F, <span class="at">standardize=</span>F)<span class="sc">$</span>beta[,<span class="dv">1</span>],</span>
+<span id="cb52-3"><a href="lasso-regression---l1-regularization.html#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">lasso =</span> <span class="fu">lasso</span>(X_standard, Y, <span class="at">lambda=</span><span class="fl">0.5</span>)</span>
+<span id="cb52-4"><a href="lasso-regression---l1-regularization.html#cb52-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>##           glmnet       lasso
 ## cyl  -1.51425578 -1.53700527
 ## disp  0.00000000  0.00000000

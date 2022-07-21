@@ -26,7 +26,7 @@ rmd_files: [
   # 2 EFA
   # 3 CFA/SEM
   # 4 IRT
-  # 5 kmeans clustering
+  205_kmeans.Rmd,
   # 6 Agglom hierarchical clustering
   # 7 Latent class
   # 8 Latent profile

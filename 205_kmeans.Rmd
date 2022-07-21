@@ -90,6 +90,7 @@ est <- kmeans(m, 3)
 # Plot 
 library(ggplot2)
 ggplot(mapping=aes(x=x1, y=x2, color=est$clusters)) +
-  geom_point()
+  geom_point() +
+  theme(aspect.ratio = 1)
 
 ```
